@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.austral.pocketpedia.ui.screens.home.HomeScreen
+import androidx.navigation.compose.rememberNavController
+import org.austral.pocketpedia.ui.shared.navigation.BottomNavbar
+import org.austral.pocketpedia.ui.shared.navigation.NavHostComposable
 import org.austral.pocketpedia.ui.theme.PocketPediaTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +21,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             PocketPediaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize().safeContentPadding()) { innerPadding ->
-                    HomeScreen()
+                Scaffold(
+                    bottomBar =  {
+                        BottomNavbar(navController::navigate)
+                    },
+                    modifier = Modifier
+                    .fillMaxSize()
+                    .safeContentPadding()) { innerPadding ->
+                    NavHostComposable(innerPadding, navController)
                 }
             }
         }

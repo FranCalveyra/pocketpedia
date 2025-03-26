@@ -1,49 +1,78 @@
 package org.austral.pocketpedia.ui.shared.navigation
 
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+
 
 // TODO: add navigation functionality
 @Composable
-fun BottomNavbar() {
-    val buttonPaddingValue = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    val buttonModifier = Modifier.padding(buttonPaddingValue)
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom,
-        modifier = Modifier
-            .fillMaxSize()
-            .safeContentPadding()
-    ) {
-        IconButton(
-            onClick = {}, modifier = buttonModifier
-        ) { Icon(Icons.Filled.Home, contentDescription = "") }
+fun BottomNavbar(
+    onNavigate: (String) -> Unit
+) {
+    val homeTab = NavItem(
+        route = PocketPediaRoutes.Home.name,
+        icon = Icons.Default.Home, // TODO: add custom icons
+        label = getRouteName(PocketPediaRoutes.Home)
+    )
 
-        IconButton(
-            onClick = {}, modifier = buttonModifier
-        ) { Icon(Icons.Filled.Search, contentDescription = "") }
+    val searchTab = NavItem(
+        route = PocketPediaRoutes.Pokedex.name,
+        icon = Icons.Default.Search, // TODO: add custom icons
+        label = getRouteName(PocketPediaRoutes.Home)
+    )
 
-        IconButton(
-            onClick = {}, modifier = buttonModifier
-        ) { Icon(Icons.Filled.Settings, contentDescription = "") }
+    val profileTab = NavItem(
+        route = PocketPediaRoutes.Profile.name,
+        icon = Icons.Default.Search, // TODO: add custom icons
+        label = getRouteName(PocketPediaRoutes.Home)
+    )
+
+    val navBarItems = listOf(homeTab, searchTab, profileTab)
+
+    NavbarView(navBarItems, onNavigate)
+
+
+}
+
+@Composable
+fun NavbarView(navItems: List<NavItem>, onNavigate: (String) -> Unit) {
+    var selectedIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
+    NavigationBar {
+        navItems.forEachIndexed { index, navItem ->
+            NavigationBarItem(
+                selected = index == selectedIndex,
+                onClick = {
+                    selectedIndex = index
+                    onNavigate(navItem.route)
+                },
+                icon = { Icon(navItem.icon, contentDescription="") },
+                label = { Text(navItem.label) }
+
+            )
+        }
     }
 }
 
+fun getRouteName(route: PocketPediaRoutes): String {
+    val name = route.name.split(".")[route.name.length - 1]
+    return name.substring(0,1).toUpperCase() + name.substring(1)
+}
 
-sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String)
+
+data class NavItem(val route: String, val icon: ImageVector, val label: String)
