@@ -10,13 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import org.austral.pocketpedia.R
 
 @Composable
 fun TypingText(
@@ -64,7 +61,6 @@ fun TypingText(
     Text(
         text = displayedText + if (showCursor) "▌" else "",
         fontSize = 24.sp,
-        fontFamily = FontFamily(Font(R.font.jetbrains_mono_regular)),
         fontWeight = FontWeight.Bold,
         modifier = Modifier
             .padding(8.dp)

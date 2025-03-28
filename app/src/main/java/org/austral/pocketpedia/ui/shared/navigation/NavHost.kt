@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,10 +15,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import org.austral.pocketpedia.ui.screens.home.HomeScreen
+import org.austral.pocketpedia.ui.screens.pokedex.PokedexScreen
 import org.austral.pocketpedia.ui.screens.pokemon.PokemonScreen
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
+    val searchQuery = remember { mutableStateOf<String>("") }
+
     val modifier = Modifier
         .fillMaxSize()
         .padding(innerPadding)
@@ -32,6 +37,10 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         ) { backStackEntry ->
             val pokemonName = backStackEntry.arguments!!.getString("pokemon_name")
             PokemonScreen(pokemonName?.let { "" }.toString())
+        }
+
+        composable(route = PocketPediaRoutes.Pokedex.name) {
+            PokedexScreen(searchQuery)
         }
     }
 }
