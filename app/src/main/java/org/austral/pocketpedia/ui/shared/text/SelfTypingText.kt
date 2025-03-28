@@ -1,4 +1,4 @@
-package org.austral.pocketpedia.ui.shared.navigation.text
+package org.austral.pocketpedia.ui.shared.text
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -19,7 +20,8 @@ import kotlinx.coroutines.delay
 fun TypingText(
     text: String,
     typingSpeed: Long = 100L,
-    repeatTyping: Boolean = false // Toggle infinite writing effect
+    repeatTyping: Boolean = false,
+    fontSize: TextUnit = 24.sp
 ) {
     var displayedText by remember { mutableStateOf("") }
     var isDeleting by remember { mutableStateOf(false) }
@@ -60,7 +62,7 @@ fun TypingText(
 
     Text(
         text = displayedText + if (showCursor) "▌" else "",
-        fontSize = 24.sp,
+        fontSize = fontSize,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
             .padding(8.dp)

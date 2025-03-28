@@ -1,9 +1,9 @@
 package org.austral.pocketpedia.ui.shared.navigation
 
 
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontFamily
 import org.austral.pocketpedia.R
 
 
-// TODO: add navigation functionality
 @Composable
 fun BottomNavbar(
     onNavigate: (String) -> Unit
@@ -34,17 +33,23 @@ fun BottomNavbar(
 
     val searchTab = NavItem(
         route = PocketPediaRoutes.Pokedex.name,
-        icon = Icons.Default.Search, // TODO: add custom icons
+        icon = Icons.Default.Search,
         label = getRouteName(PocketPediaRoutes.Pokedex)
+    )
+
+    val pokemonTeamTab = NavItem(
+        route = PocketPediaRoutes.PokemonTeam.name,
+        icon = Icons.Default.List,
+        label = getRouteName(PocketPediaRoutes.PokemonTeam)
     )
 
     val profileTab = NavItem(
         route = PocketPediaRoutes.Profile.name,
-        icon = Icons.Default.Person, // TODO: add custom icons
+        icon = Icons.Default.Person, //
         label = getRouteName(PocketPediaRoutes.Profile) //TODO: create this automatically based on route
     )
 
-    val navBarItems = listOf(homeTab, searchTab, profileTab)
+    val navBarItems = listOf(homeTab, searchTab, pokemonTeamTab, profileTab)
 
     NavbarView(navBarItems, onNavigate)
 
@@ -65,8 +70,13 @@ fun NavbarView(navItems: List<NavItem>, onNavigate: (String) -> Unit) {
                     selectedIndex = index
                     onNavigate(navItem.route)
                 },
-                icon = { Icon(navItem.icon, contentDescription="") },
-                label = { Text(navItem.label, fontFamily = FontFamily(Font(R.font.jetbrains_mono_regular))) }
+                icon = { Icon(navItem.icon, contentDescription = "") },
+                label = {
+                    Text(
+                        navItem.label,
+                        fontFamily = FontFamily(Font(R.font.jetbrains_mono_regular))
+                    )
+                }
 
             )
         }
@@ -75,7 +85,7 @@ fun NavbarView(navItems: List<NavItem>, onNavigate: (String) -> Unit) {
 
 fun getRouteName(route: PocketPediaRoutes): String {
     val name = route.name
-    return name.substring(0,1).toUpperCase() + name.substring(1)
+    return name.substring(0, 1).toUpperCase() + name.substring(1)
 }
 
 
