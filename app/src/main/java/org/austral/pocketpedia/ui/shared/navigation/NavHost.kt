@@ -30,13 +30,13 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         navController = navController, startDestination = PocketPediaRoutes.Home.name,
         modifier = modifier
     ) {
-        composable(route = PocketPediaRoutes.Home.name) { HomeScreen() }
+        composable(route = PocketPediaRoutes.Home.name) { HomeScreen(navController) }
         composable(
             route = "${PocketPediaRoutes.Pokemon.name}/{pokemon_name}",
             arguments = listOf(navArgument("pokemon_name") { type = NavType.StringType })
         ) { backStackEntry ->
             val pokemonName = backStackEntry.arguments!!.getString("pokemon_name")
-            PokemonScreen(pokemonName?.let { "" }.toString())
+            PokemonScreen(pokemonName?.let { "Charizard" }.toString(), navController)
         }
 
         composable(route = PocketPediaRoutes.Pokedex.name) {

@@ -3,6 +3,7 @@ package org.austral.pocketpedia.ui.shared.pokemon.card
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,14 +21,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.mappers.PokemonTypeMapper
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
+import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
 
 @Composable
 // TODO: use current pokemon's real data
-fun PokemonCard(pokemon: Pokemon?) {
+fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,6 +39,10 @@ fun PokemonCard(pokemon: Pokemon?) {
             .border(2.dp, Color.Transparent, shape = RoundedCornerShape(18.dp))
             .background(color = getPokemonColor(pokemon), shape = RoundedCornerShape(18.dp))
             .padding(10.dp)
+            .clickable(onClick = {
+                val route: String = "${PocketPediaRoutes.Pokemon.name}/charizard"
+                navController.navigate(route)
+            })
 
     ) {
 //        CardTitle(pokemon?.name?.let { "" }.toString())
