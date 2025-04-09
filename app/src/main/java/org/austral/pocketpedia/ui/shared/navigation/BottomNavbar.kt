@@ -26,27 +26,26 @@ fun BottomNavbar(
     onNavigate: (String) -> Unit
 ) {
     val homeTab = NavItem(
-        route = PocketPediaRoutes.Home.name,
+        pocketPediaRoute = PocketPediaRoutes.Home,
         icon = Icons.Default.Home, // TODO: add custom icons
         label = getRouteName(PocketPediaRoutes.Home)
     )
 
     val searchTab = NavItem(
-        route = PocketPediaRoutes.Pokedex.name,
+        pocketPediaRoute = PocketPediaRoutes.Pokedex,
         icon = Icons.Default.Search,
         label = getRouteName(PocketPediaRoutes.Pokedex)
     )
 
     val pokemonTeamTab = NavItem(
-        route = PocketPediaRoutes.PokemonTeam.name,
+        pocketPediaRoute = PocketPediaRoutes.PokemonTeam,
         icon = Icons.Default.List,
-        label = getRouteName(PocketPediaRoutes.PokemonTeam)
+        label = "My Team"
     )
 
     val profileTab = NavItem(
-        route = PocketPediaRoutes.Profile.name,
-        icon = Icons.Default.Person, //
-        label = getRouteName(PocketPediaRoutes.Profile) //TODO: create this automatically based on route
+        pocketPediaRoute = PocketPediaRoutes.Profile,
+        icon = Icons.Default.Person
     )
 
     val navBarItems = listOf(homeTab, searchTab, pokemonTeamTab, profileTab)
@@ -89,4 +88,9 @@ fun getRouteName(route: PocketPediaRoutes): String {
 }
 
 
-data class NavItem(val route: String, val icon: ImageVector, val label: String)
+data class NavItem(
+    val pocketPediaRoute: PocketPediaRoutes,
+    val route: String = pocketPediaRoute.name.toString().toLowerCase(),
+    val icon: ImageVector,
+    val label: String = pocketPediaRoute.name
+)

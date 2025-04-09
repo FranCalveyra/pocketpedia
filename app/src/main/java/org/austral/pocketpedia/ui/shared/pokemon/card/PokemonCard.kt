@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
@@ -65,12 +67,21 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
     }
 }
 
+@Preview
+@Composable
+fun PokemonCardPreview() {
+    PokemonCard(null, NavHostController(LocalContext.current))
+}
+
+
 @Composable
 private fun CardTitle(title: String) {
     // TODO: enhance this
-    Text(title, style = TextStyle(
-        fontWeight = FontWeight.W800
-    ))
+    Text(
+        title, style = TextStyle(
+            fontWeight = FontWeight.W800
+        )
+    )
 }
 
 

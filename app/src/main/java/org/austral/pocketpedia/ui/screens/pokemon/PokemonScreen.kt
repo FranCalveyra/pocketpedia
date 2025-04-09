@@ -26,14 +26,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 
 @Composable
+// TODO: get the Pokemon model as parameter
 fun PokemonScreen(pokemonName: String = "Charizard", navController: NavHostController) {
     Column(
         modifier = Modifier
@@ -191,4 +194,10 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150) {
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Preview
+@Composable
+fun PokemonScreenPreview(){
+    PokemonScreen(navController = NavHostController(context=LocalContext.current))
 }
