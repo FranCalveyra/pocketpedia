@@ -42,7 +42,7 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
             .background(color = getPokemonColor(pokemon), shape = RoundedCornerShape(18.dp))
             .padding(10.dp)
             .clickable(onClick = {
-                val route: String = "${PocketPediaRoutes.Pokemon.name}/charizard"
+                val route = "${PocketPediaRoutes.Pokemon.name}/charizard"
                 navController.navigate(route)
             })
 

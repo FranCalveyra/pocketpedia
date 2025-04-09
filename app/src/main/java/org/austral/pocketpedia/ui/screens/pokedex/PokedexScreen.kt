@@ -26,7 +26,7 @@ fun PokedexScreen(query: MutableState<String>) {
                 InputField(
                     query = query.value,
                     onQueryChange = { newValue -> query.value = newValue },
-                    onSearch = searchPokemon(),
+                    onSearch = { value -> searchPokemon(value) },
                     expanded = false,
                     onExpandedChange = {},
                 )
@@ -34,11 +34,10 @@ fun PokedexScreen(query: MutableState<String>) {
             expanded = false,
             onExpandedChange = {},
             content = {},
-
-            )
+        )
     }
 }
 
-private fun searchPokemon(): (String) -> Unit {
-    return {_ ->}
+private fun searchPokemon(pokemonName: String) {
+
 }
