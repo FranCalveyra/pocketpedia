@@ -1,21 +1,31 @@
 package org.austral.pocketpedia.ui.screens.team
 
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import org.austral.pocketpedia.domain.models.team.PokemonTeam
+import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
+import org.austral.pocketpedia.ui.shared.text.TypingText
 
 @Composable
 //TODO: create a component for the team
-fun PokemonTeamScreen(pokemonTeams: List<PokemonTeam>, navController: NavHostController){
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
-    ) {
-        itemsIndexed(pokemonTeams) { _, team->
-            PokemonCarousel(title = team.teamName, pokemons = team.team, navController)
+fun PokemonTeamScreen(navController: NavHostController) {
+    val viewModel = hiltViewModel<PokemonTeamViewModel>()
+    val pokemonTeams by viewModel.teams.collectAsState()
+    Column {
+        TypingText(text = stringResource(R.string.your_teams), repeatTyping = true)
+
+        pokemonTeams.forEach { team ->
+            PokemonCarousel(
+                title = team.teamName,
+                pokemons = team.team,
+                navController
+            )
         }
+
     }
 }

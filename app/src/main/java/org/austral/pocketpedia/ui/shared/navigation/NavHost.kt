@@ -21,8 +21,7 @@ import org.austral.pocketpedia.ui.screens.team.PokemonTeamScreen
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
-    val searchQuery = remember { mutableStateOf<String>("") }
-    val pokemonTeams = remember { mutableStateOf(arrayOfNulls<PokemonTeam>(3).toList()) }
+    val searchQuery = remember { mutableStateOf<String>("") } //TODO: move to viewModel
 
     val modifier = Modifier
         .fillMaxSize()
@@ -45,7 +44,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             PokedexScreen(searchQuery)
         }
         composable(route = PocketPediaRoutes.PokemonTeam.name) {
-            PokemonTeamScreen(pokemonTeams.value as List<PokemonTeam>, navController)
+            PokemonTeamScreen(navController)
         }
     }
 }

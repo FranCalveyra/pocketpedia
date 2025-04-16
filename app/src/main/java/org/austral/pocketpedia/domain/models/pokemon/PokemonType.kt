@@ -21,6 +21,6 @@ enum class PokemonType(val displayName: String, val color: Color) {
     DARK("Dark", Color(0xFF705746)),
     STEEL("Steel", Color(0xFFB7B7CE)),
     FAIRY("Fairy", Color(0xFFD685AD)),
-    UNKNOWN("Unknown", Color.White)
+    UNKNOWN("Unknown", Color.Black)
 }
 

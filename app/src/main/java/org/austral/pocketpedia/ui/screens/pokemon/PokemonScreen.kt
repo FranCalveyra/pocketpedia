@@ -28,12 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
+import org.austral.pocketpedia.domain.mappers.PokemonTypeMapper
+import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
 
 @Composable
 // TODO: get the Pokemon model as parameter
@@ -89,26 +92,26 @@ fun PokemonScreen(pokemonName: String = "Charizard", navController: NavHostContr
         }
 
         // About Section
-        CardSection(title = "About") {
-            RowInfo(label = "Height", value = "1.7 m")
-            RowInfo(label = "Weight", value = "90.5 kg")
-            RowInfo(label = "Type", value = "Fire/Flying", isBold = true)
+        CardSection(title = stringResource(R.string.about)) {
+            RowInfo(label = stringResource(R.string.height), value = "1.7 m")
+            RowInfo(label = stringResource(R.string.weight), value = "90.5 kg")
+            TypeRow(firstType = "fire", secondType = "flying")
         }
 
         // Abilities Section
-        CardSection(title = "Abilities") {
+        CardSection(title = stringResource(R.string.abilities)) {
             AbilityTag("Blaze")
             AbilityTag("Solar Power (Hidden)")
         }
 
         // Base Stats Section
-        CardSection(title = "Base Stats") {
-            StatBar(label = "HP", value = 78)
-            StatBar(label = "Attack", value = 84)
-            StatBar(label = "Defense", value = 78)
-            StatBar(label = "Sp. Atk", value = 109)
-            StatBar(label = "Sp. Def", value = 85)
-            StatBar(label = "Speed", value = 100)
+        CardSection(title = stringResource(R.string.base_stats)) {
+            StatBar(label = stringResource(R.string.hp), value = 78)
+            StatBar(label = stringResource(R.string.attack), value = 84)
+            StatBar(label = stringResource(R.string.defense), value = 78)
+            StatBar(label = stringResource(R.string.sp_atk), value = 109)
+            StatBar(label = stringResource(R.string.sp_def), value = 85)
+            StatBar(label = stringResource(R.string.speed), value = 100)
         }
     }
 }
@@ -145,6 +148,21 @@ fun RowInfo(label: String, value: String, isBold: Boolean = false) {
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
             color = if (isBold) Color.Black else Color.Gray
         )
+    }
+    Spacer(modifier = Modifier.height(4.dp))
+}
+
+@Composable
+fun TypeRow(firstType: String, secondType: String?) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = stringResource(R.string.type), fontSize = 16.sp, color = Color.Gray)
+        Row {
+            PokemonTypeTag(PokemonTypeMapper.fromString(firstType))
+            secondType?.let { it -> PokemonTypeTag(PokemonTypeMapper.fromString(it)) }
+        }
     }
     Spacer(modifier = Modifier.height(4.dp))
 }
@@ -198,6 +216,6 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150) {
 
 @Preview
 @Composable
-fun PokemonScreenPreview(){
-    PokemonScreen(navController = NavHostController(context=LocalContext.current))
+fun PokemonScreenPreview() {
+    PokemonScreen(navController = NavHostController(context = LocalContext.current))
 }
