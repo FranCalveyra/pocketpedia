@@ -65,4 +65,6 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

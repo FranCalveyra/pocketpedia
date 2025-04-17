@@ -13,7 +13,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import org.austral.pocketpedia.domain.models.team.PokemonTeam
 import org.austral.pocketpedia.ui.screens.home.HomeScreen
 import org.austral.pocketpedia.ui.screens.pokedex.PokedexScreen
 import org.austral.pocketpedia.ui.screens.pokemon.PokemonScreen
@@ -33,11 +32,11 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
     ) {
         composable(route = PocketPediaRoutes.Home.name) { HomeScreen(navController) }
         composable(
-            route = "${PocketPediaRoutes.Pokemon.name}/{pokemon_name}",
-            arguments = listOf(navArgument("pokemon_name") { type = NavType.StringType })
+            route = "${PocketPediaRoutes.Pokemon.name}/{pokemonName}",
+            arguments = listOf(navArgument("pokemonName") { type = NavType.StringType })
         ) { backStackEntry ->
-            val pokemonName = backStackEntry.arguments!!.getString("pokemon_name")
-            PokemonScreen(pokemonName?.let { "Charizard" }.toString(), navController)
+            val pokemonName = backStackEntry.arguments!!.getString("pokemonName")
+            PokemonScreen(pokemonName ?: "Pikachu", navController)
         }
 
         composable(route = PocketPediaRoutes.Pokedex.name) {

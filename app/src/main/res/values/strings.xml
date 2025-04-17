@@ -14,4 +14,5 @@
     <string name="height">Height</string>
     <string name="weight">Weight</string>
     <string name="your_teams">These are your teams</string>
+    <string name="hidden">%1$s (Hidden)</string>
 </resources>

@@ -22,7 +22,7 @@ fun PokemonTeamScreen(navController: NavHostController) {
         pokemonTeams.forEach { team ->
             PokemonCarousel(
                 title = team.teamName,
-                pokemons = team.team,
+                pokemonList = team.team,
                 navController
             )
         }

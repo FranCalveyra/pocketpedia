@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +27,7 @@ import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 @Composable
 fun PokemonCarousel(
     title: String,
-    pokemons: List<Pokemon?>, // This null safe is only for the preview
+    pokemonList: List<Pokemon?>, // This null safe is only for the preview
     navController: NavHostController
 ) {
     val listState = rememberLazyListState()
@@ -52,7 +52,7 @@ fun PokemonCarousel(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            itemsIndexed(pokemons) { _, pokemon ->
+            items(pokemonList) { pokemon ->
                 Box(
                     modifier = Modifier
                         .width(200.dp)

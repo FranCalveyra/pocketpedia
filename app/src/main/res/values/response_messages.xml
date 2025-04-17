@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pokemon_not_found">Pokemon not found</string>
+    <string name="region_not_found">Region not found</string>
+</resources>
