@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -20,8 +18,6 @@ import org.austral.pocketpedia.ui.screens.team.PokemonTeamScreen
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
-    val searchQuery = remember { mutableStateOf<String>("") } //TODO: move to viewModel
-
     val modifier = Modifier
         .fillMaxSize()
         .padding(innerPadding)

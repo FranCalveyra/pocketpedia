@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,11 +24,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
 
 @Composable
@@ -58,7 +57,7 @@ fun PokedexScreen(
             onValueChange = {
                 viewModel.onQueryChanged(it)      // preview-on-type
             },
-            placeholder = { Text("Search Pokémon…", color=Color.Black) },
+            placeholder = { Text(stringResource(R.string.search_pokemon), color=Color.Black) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()

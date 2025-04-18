@@ -18,11 +18,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -60,18 +62,15 @@ fun PokemonScreen(pokemonName: String, navController: NavHostController) {
             .verticalScroll(rememberScrollState())
             .background(Color(0xFFF8F8F8))
     ) {
-
         if (loading) {
             CircularProgressIndicator(
-                color = Color.Gray,
-                modifier = Modifier.size(48.dp)
+                color = Color.Gray, modifier = Modifier.size(48.dp)
             )
         } else if (retry || pokemon == null) {
-            Text("There was an error")
+            Text(stringResource(R.string.error_present))
             Button(
-                onClick = { viewModel.retryApiCall(pokemonName) }
-            ) {
-                Text("Retry")
+                onClick = { viewModel.retryApiCall(pokemonName) }) {
+                Text(stringResource(R.string.retry))
             }
         } else {
             val pokemonColor = getPokemonColor(pokemon!!)
@@ -121,8 +120,12 @@ fun PokemonScreen(pokemonName: String, navController: NavHostController) {
             val types = pokemon!!.types
             // About Section
             CardSection(title = stringResource(R.string.about)) {
-                RowInfo(label = stringResource(R.string.height), value = "${pokemon!!.height} m")
-                RowInfo(label = stringResource(R.string.weight), value = "${pokemon!!.weight} kg")
+                RowInfo(
+                    label = stringResource(R.string.height), value = "${pokemon!!.height} m"
+                )
+                RowInfo(
+                    label = stringResource(R.string.weight), value = "${pokemon!!.weight} kg"
+                )
                 TypeRow(
                     firstType = types.first(),
                     secondType = if (types.size > 1) types[1] else null
@@ -139,10 +142,24 @@ fun PokemonScreen(pokemonName: String, navController: NavHostController) {
             // Base Stats Section
             val stats = pokemon!!.stats
             CardSection(title = stringResource(R.string.base_stats)) {
-                stats.map { StatBar(it.stat.name, it.baseStat.toInt(), barColor = pokemonColor) }
+                stats.map {
+                    StatBar(it.stat.name, it.baseStat.toInt(), barColor = pokemonColor)
+                }
             }
         }
+        FloatingActionButton(
+            backgroundColor = getPokemonColor(pokemon),
+            onClick = {
+
+            },
+            modifier = Modifier
+                .padding(all = 16.dp)
+                .align(Alignment.End)
+                .size(72.dp)
+        ) { Icon(Icons.Default.Add, contentDescription = "") }
     }
+
+
 }
 
 // Reusable section for cards
@@ -167,8 +184,7 @@ fun CardSection(title: String, content: @Composable () -> Unit) {
 @Composable
 fun RowInfo(label: String, value: String, isBold: Boolean = false) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = label, fontSize = 16.sp, color = Color.Gray)
         Text(
@@ -184,8 +200,7 @@ fun RowInfo(label: String, value: String, isBold: Boolean = false) {
 @Composable
 fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = stringResource(R.string.type), fontSize = 16.sp, color = Color.Gray)
         Row {
@@ -201,8 +216,7 @@ fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
 fun AbilityTag(ability: Ability) {
     val abilityName = ability.ability.name
     val abilityText = if (ability.isHidden) stringResource(
-        R.string.hidden,
-        abilityName
+        R.string.hidden, abilityName
     ) else abilityName
 
     Box(

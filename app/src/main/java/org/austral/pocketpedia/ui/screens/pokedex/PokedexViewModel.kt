@@ -26,13 +26,11 @@ class PokedexViewModel @Inject constructor(
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
 
-    // paginate through name batches until we find a batch whose first name > query prefix
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
         doSearch(newQuery.trim().lowercase())
     }
 
-    /** also invoked when the user taps “search” on the keyboard */
     fun onSearch() {
         doSearch(_query.value.trim().lowercase())
     }
@@ -46,7 +44,6 @@ class PokedexViewModel @Inject constructor(
         _loading.value = true
         _searchResults.value = emptyList()
 
-        // Start at offset 0
         searchBatch(prefix, limit = 100, offset = 0)
     }
 
@@ -61,7 +58,7 @@ class PokedexViewModel @Inject constructor(
                     .filter { it.startsWith(prefix, ignoreCase = true) }
                     .take(10) // preview up to 10
                 if (matched.isNotEmpty()) {
-                    fetchAllMatched(prefix, matched)
+                    fetchAllMatched(matched)
                 } else if (names.size == limit) {
                     // not found yet, fetch next page
                     searchBatch(prefix, limit, offset + limit)
@@ -74,11 +71,11 @@ class PokedexViewModel @Inject constructor(
                 _loading.value = false
                 _searchResults.value = emptyList()
             },
-            loadingFinished = { /* no-op; we manage loading manually */ }
+            loadingFinished = { }
         )
     }
 
-    private fun fetchAllMatched(prefix: String, matchedNames: List<String>) {
+    private fun fetchAllMatched(matchedNames: List<String>) {
         val results = mutableListOf<Pokemon>()
         var pending = matchedNames.size
 
@@ -99,7 +96,7 @@ class PokedexViewModel @Inject constructor(
                         _loading.value = false
                     }
                 },
-                loadingFinished = { /*no-op*/ }
+                loadingFinished = { }
             )
         }
     }
