@@ -47,7 +47,6 @@ import org.austral.pocketpedia.ui.theme.getPokemonColor
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
 @Composable
-// TODO: get the Pokemon model as parameter
 fun PokemonScreen(pokemonName: String, navController: NavHostController) {
     val viewModel = hiltViewModel<PokemonViewModel>()
     val pokemon by viewModel.pokemon.collectAsStateWithLifecycle()
@@ -75,13 +74,13 @@ fun PokemonScreen(pokemonName: String, navController: NavHostController) {
                 Text("Retry")
             }
         } else {
-
+            val pokemonColor = getPokemonColor(pokemon!!)
             // Header
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        getPokemonColor(pokemon),
+                        pokemonColor,
                         shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
                     )
                     .padding(16.dp)
@@ -140,7 +139,7 @@ fun PokemonScreen(pokemonName: String, navController: NavHostController) {
             // Base Stats Section
             val stats = pokemon!!.stats
             CardSection(title = stringResource(R.string.base_stats)) {
-                stats.map { StatBar(it.stat.name, it.baseStat.toInt()) }
+                stats.map { StatBar(it.stat.name, it.baseStat.toInt(), barColor = pokemonColor) }
             }
         }
     }
@@ -223,7 +222,7 @@ fun AbilityTag(ability: Ability) {
 
 // Base Stats Bar UI
 @Composable
-fun StatBar(label: String, value: Int, maxStat: Int = 150) {
+fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
     val curedLabel = if (label.contains("-")) clearHyphens(label) else transformToTitle(label)
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -239,7 +238,7 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150) {
                 modifier = Modifier
                     .fillMaxWidth(value.toFloat() / maxStat)
                     .height(12.dp)
-                    .background(Color(0xFFFF5A5F), shape = CircleShape)
+                    .background(barColor, shape = CircleShape)
             )
         }
         Spacer(modifier = Modifier.height(4.dp))

@@ -40,7 +40,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
         composable(route = PocketPediaRoutes.Pokedex.name) {
-            PokedexScreen(searchQuery)
+            PokedexScreen(navController)
         }
         composable(route = PocketPediaRoutes.PokemonTeam.name) {
             PokemonTeamScreen(navController)

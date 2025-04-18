@@ -6,6 +6,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.response.PokedexResponse
+import org.austral.pocketpedia.domain.models.response.PokemonListResponse
 import org.austral.pocketpedia.domain.models.response.PokemonResponse
 import org.austral.pocketpedia.domain.models.response.RegionResponse
 import retrofit.Callback
@@ -96,6 +97,39 @@ class ApiServiceImpl @Inject constructor() {
             }
         })
     }
+
+    fun getPokemonNamesBatch(
+        limit: Int,
+        offset: Int,
+        context: Context,
+        onSuccess: (List<String>) -> Unit,
+        onFail: () -> Unit,
+        loadingFinished: () -> Unit
+    ) {
+        val service = buildService(context)
+        service.getPokemonList(limit, offset).enqueue(object : Callback<PokemonListResponse> {
+            override fun onResponse(
+                response: Response<PokemonListResponse>?,
+                retrofit: Retrofit?
+            ) {
+                if (response?.isSuccess == true) {
+                    val names = response.body().results.map { it.name }
+                    onSuccess(names)
+                } else {
+                    showToast(context, R.string.pokemon_not_found)
+                    onFail()
+                }
+                loadingFinished()
+            }
+
+            override fun onFailure(t: Throwable?) {
+                showToast(context, R.string.pokemon_not_found)
+                onFail()
+                loadingFinished()
+            }
+        })
+    }
+
 
     private fun fetchPokemonList(
         service: ApiService,

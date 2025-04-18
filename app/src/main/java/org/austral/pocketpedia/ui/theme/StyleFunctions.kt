@@ -19,3 +19,11 @@ fun getPokemonColor(pokemon: Pokemon?): Color {
 fun clearHyphens(string: String): String {
     return string.split("-").joinToString(" ") { transformToTitle(it) }
 }
+
+fun getContrastColor(backgroundColor: Color): Color {
+    // Luminance formula using perceived brightness
+    val luminance = 0.299f * backgroundColor.red +
+            0.587f * backgroundColor.green +
+            0.114f * backgroundColor.blue
+    return if (luminance > 0.5f) Color.Black else Color.White
+}
