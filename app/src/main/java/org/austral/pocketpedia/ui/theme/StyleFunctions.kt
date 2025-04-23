@@ -27,3 +27,7 @@ fun getContrastColor(backgroundColor: Color): Color {
             0.114f * backgroundColor.blue
     return if (luminance > 0.5f) Color.Black else Color.White
 }
+
+fun tidyStat(stat: Long): String {
+    return "${stat / 10.0}"
+}

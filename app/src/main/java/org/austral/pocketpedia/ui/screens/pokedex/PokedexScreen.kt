@@ -41,23 +41,22 @@ fun PokedexScreen(
     val results by viewModel.searchResults.collectAsState()
     val loading by viewModel.loading.collectAsState()
 
-    // for hiding keyboard & clearing focus on “Search”
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(pokemonTeamPreviewBackground())
+//            .background(pokemonTeamPreviewBackground())
             .padding(8.dp)
     ) {
         OutlinedTextField(
             textStyle = TextStyle(color = Color.Black),
             value = query,
             onValueChange = {
-                viewModel.onQueryChanged(it)      // preview-on-type
+                viewModel.onQueryChanged(it)
             },
-            placeholder = { Text(stringResource(R.string.search_pokemon), color=Color.Black) },
+            placeholder = { Text(stringResource(R.string.search_pokemon), color = Color.Black) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,7 +64,7 @@ fun PokedexScreen(
             keyboardOptions = KeyboardOptions.Default.copy(),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    viewModel.onSearch()            // explicit Enter
+                    viewModel.onSearch()
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 }
@@ -93,10 +92,9 @@ fun PokedexScreen(
 }
 
 
-
 @Composable
 fun pokemonTeamPreviewBackground(): Brush {
-    // Liked this color
+    // Liked this gradient
     // Target Gradient: Color(0xFF1D1D1D), Color(0xFF2E2E2E)
     return Brush.linearGradient(
         colors = listOf(Color.White, Color.White),

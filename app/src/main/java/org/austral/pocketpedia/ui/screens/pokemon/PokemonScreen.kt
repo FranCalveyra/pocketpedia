@@ -15,18 +15,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,124 +41,121 @@ import coil3.compose.AsyncImage
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.domain.models.response.Ability
+import org.austral.pocketpedia.ui.screens.team.PokemonTeamViewModel
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
 import org.austral.pocketpedia.ui.theme.clearHyphens
 import org.austral.pocketpedia.ui.theme.getPokemonColor
+import org.austral.pocketpedia.ui.theme.tidyStat
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
 @Composable
-fun PokemonScreen(pokemonName: String, navController: NavHostController) {
+fun PokemonScreen(
+    pokemonName: String,
+    navController: NavHostController
+) {
     val viewModel = hiltViewModel<PokemonViewModel>()
+
     val pokemon by viewModel.pokemon.collectAsStateWithLifecycle()
     val loading by viewModel.isLoading.collectAsStateWithLifecycle()
     val retry by viewModel.retry.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .background(Color(0xFFF8F8F8))
-    ) {
-        if (loading) {
-            CircularProgressIndicator(
-                color = Color.Gray, modifier = Modifier.size(48.dp)
-            )
-        } else if (retry || pokemon == null) {
-            Text(stringResource(R.string.error_present))
-            Button(
-                onClick = { viewModel.retryApiCall(pokemonName) }) {
-                Text(stringResource(R.string.retry))
-            }
-        } else {
-            val pokemonColor = getPokemonColor(pokemon!!)
-            // Header
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        pokemonColor,
-                        shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(Color(0xFFF8F8F8))
+                .padding(bottom = 88.dp)
+        ) {
+            when {
+                loading -> {
+                    CircularProgressIndicator(
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.CenterHorizontally)
                     )
-                    .padding(16.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    // Back Button
-                    IconButton(
-                        onClick = { navController.popBackStack() },
-                        modifier = Modifier.align(Alignment.Start)
+                }
+
+                retry || pokemon == null -> {
+                    Text(stringResource(R.string.error_present))
+                    Button(onClick = { viewModel.retryApiCall(pokemonName) }) {
+                        Text(stringResource(R.string.retry))
+                    }
+                }
+
+                else -> {
+                    val p = pokemon!!
+                    val pokemonColor = getPokemonColor(p)
+
+                    // Header
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                pokemonColor,
+                                shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                            )
+                            .padding(16.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = ""
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            IconButton(
+                                onClick = { navController.popBackStack() },
+                                modifier = Modifier.align(Alignment.Start)
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Default.ArrowBack,
+                                    contentDescription = null
+                                )
+                            }
+
+                            Text(
+                                text = transformToTitle(p.name),
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Text(text = "#${p.id}", fontSize = 18.sp, color = Color.White)
+
+                            AsyncImage(
+                                model = p.sprites.frontDefault,
+                                contentDescription = p.name,
+                                modifier = Modifier
+                                    .size(180.dp)
+                                    .padding(top = 8.dp)
+                            )
+                        }
                     }
 
-                    Text(
-                        text = transformToTitle(pokemon!!.name),
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                    Text(text = "#${pokemon!!.id}", fontSize = 18.sp, color = Color.White)
+                    // About
+                    CardSection(title = stringResource(R.string.about)) {
+                        RowInfo(stringResource(R.string.height), "${tidyStat(p.height)} m")
+                        RowInfo(stringResource(R.string.weight), "${tidyStat(p.weight)} kg")
+                        TypeRow(p.types.first(), p.types.getOrNull(1))
+                    }
 
-                    AsyncImage(
-                        model = pokemon!!.sprites.frontDefault,
-                        contentDescription = pokemon!!.name,
-                        modifier = Modifier
-                            .size(180.dp)
-                            .padding(top = 8.dp)
-                    )
-                }
-            }
+                    // Abilities
+                    CardSection(title = stringResource(R.string.abilities)) {
+                        p.abilities.forEach { AbilityTag(it) }
+                    }
 
-            val types = pokemon!!.types
-            // About Section
-            CardSection(title = stringResource(R.string.about)) {
-                RowInfo(
-                    label = stringResource(R.string.height), value = "${pokemon!!.height} m"
-                )
-                RowInfo(
-                    label = stringResource(R.string.weight), value = "${pokemon!!.weight} kg"
-                )
-                TypeRow(
-                    firstType = types.first(),
-                    secondType = if (types.size > 1) types[1] else null
-                )
-            }
-
-            // Abilities Section
-            CardSection(title = stringResource(R.string.abilities)) {
-                pokemon!!.abilities.map {
-                    AbilityTag(it)
-                }
-            }
-
-            // Base Stats Section
-            val stats = pokemon!!.stats
-            CardSection(title = stringResource(R.string.base_stats)) {
-                stats.map {
-                    StatBar(it.stat.name, it.baseStat.toInt(), barColor = pokemonColor)
+                    // Base Stats
+                    CardSection(title = stringResource(R.string.base_stats)) {
+                        p.stats.forEach {
+                            StatBar(it.stat.name, it.baseStat.toInt(), barColor = pokemonColor)
+                        }
+                    }
                 }
             }
         }
-        FloatingActionButton(
-            backgroundColor = getPokemonColor(pokemon),
-            onClick = {
-
-            },
-            modifier = Modifier
-                .padding(all = 16.dp)
-                .align(Alignment.End)
-                .size(72.dp)
-        ) { Icon(Icons.Default.Add, contentDescription = "") }
     }
-
-
 }
+
 
 // Reusable section for cards
 @Composable
@@ -226,7 +221,7 @@ fun AbilityTag(ability: Ability) {
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
-            text = transformToTitle(abilityText),
+            text = clearHyphens(transformToTitle(abilityText)),
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             color = Color.Black

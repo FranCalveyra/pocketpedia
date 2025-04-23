@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(
     private val apiService: ApiServiceImpl
 ) : ViewModel() {
 
-    private val _pokemonLists = MutableStateFlow<List<List<Pokemon>>>(emptyList())
+    private val _pokemonLists = MutableStateFlow<List<List<Pokemon?>>>(emptyList())
     val pokemonLists = _pokemonLists.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)

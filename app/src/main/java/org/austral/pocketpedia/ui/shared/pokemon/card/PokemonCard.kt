@@ -95,6 +95,6 @@ private fun CardTitle(title: String, textColor: Color) {
     val curedTitle = transformToTitle(title)
     Text(
         curedTitle,
-        style = TextStyle(fontWeight = FontWeight.W800, color = textColor)
+        fontWeight = FontWeight.W800, color = textColor
     )
 }

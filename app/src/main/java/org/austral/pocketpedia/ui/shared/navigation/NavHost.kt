@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import org.austral.pocketpedia.ui.screens.home.HomeScreen
 import org.austral.pocketpedia.ui.screens.pokedex.PokedexScreen
 import org.austral.pocketpedia.ui.screens.pokemon.PokemonScreen
+import org.austral.pocketpedia.ui.screens.profile.ProfileScreen
 import org.austral.pocketpedia.ui.screens.team.PokemonTeamScreen
 
 @Composable
@@ -40,6 +41,10 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
         composable(route = PocketPediaRoutes.PokemonTeam.name) {
             PokemonTeamScreen(navController)
+        }
+
+        composable(route = PocketPediaRoutes.Profile.name) {
+            ProfileScreen(navController)
         }
     }
 }

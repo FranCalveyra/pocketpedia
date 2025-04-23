@@ -1,7 +1,8 @@
 package org.austral.pocketpedia.ui.screens.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,7 +23,7 @@ import org.austral.pocketpedia.ui.shared.text.TypingText
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val text = LocalContext.current.getString(R.string.welcome_title)
-    val spacing = 120.dp
+    val headerHeight = 120.dp
 
     val viewModel = hiltViewModel<HomeViewModel>()
     val pokemonLists by viewModel.pokemonLists.collectAsStateWithLifecycle()
@@ -31,16 +32,26 @@ fun HomeScreen(navController: NavHostController) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.verticalScroll(rememberScrollState())
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
     ) {
         if (loading) {
             CircularProgressIndicator()
         } else {
-            TypingText(text = text, repeatTyping = true)
-            Spacer(modifier = Modifier.height(spacing))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(headerHeight),
+                contentAlignment = Alignment.Center
+            ) {
+                TypingText(
+                    text = text,
+                    repeatTyping = true
+                )
+            }
+
             pokemonLists.mapIndexed { index, list ->
-                println("List index: $index ")
-                println("Retrieved pokemons: $list")
 
                 PokemonCarousel(
                     title = regions[index],
