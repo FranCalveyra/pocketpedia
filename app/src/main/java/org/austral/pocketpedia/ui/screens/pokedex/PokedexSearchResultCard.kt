@@ -1,11 +1,13 @@
 package org.austral.pocketpedia.ui.screens.pokedex
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
+import org.austral.pocketpedia.ui.screens.pokemon.TypeRow
 
 @Composable
 fun PokemonSearchResultCard(pokemon: Pokemon, onClick: () -> Unit) {
     Card(
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
@@ -35,10 +39,13 @@ fun PokemonSearchResultCard(pokemon: Pokemon, onClick: () -> Unit) {
                 modifier = Modifier.size(64.dp)
             )
             Spacer(modifier = Modifier.padding(8.dp))
-            Text(
-                text = pokemon.name.replaceFirstChar { it.uppercase() },
-                style = MaterialTheme.typography.h2
-            )
+            Column {
+                Text(
+                    text = pokemon.name.replaceFirstChar { it.uppercase() },
+                    style = MaterialTheme.typography.h4
+                )
+                TypeRow(pokemon.types.first(), pokemon.types.getOrNull(1))
+            }
         }
     }
 }

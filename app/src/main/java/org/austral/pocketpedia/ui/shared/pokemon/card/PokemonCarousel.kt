@@ -63,7 +63,7 @@ fun PokemonCarousel(
             items(pokemonList) { pokemon ->
                 Box(
                     modifier = Modifier
-                        .width(200.dp)
+                        .width(224.dp)
                         .padding(vertical = 8.dp)
                 ) {
                     PokemonCard(pokemon, navController)
