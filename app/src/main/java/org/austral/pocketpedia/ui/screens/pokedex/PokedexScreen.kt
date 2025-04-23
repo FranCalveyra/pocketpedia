@@ -1,6 +1,5 @@
 package org.austral.pocketpedia.ui.screens.pokedex
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,11 +25,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
+import org.austral.pocketpedia.ui.theme.pokedexLoadingHeaderHeight
+import org.austral.pocketpedia.ui.theme.pokedexOverallPadding
+import org.austral.pocketpedia.ui.theme.pokedexTextFieldPadding
 
 @Composable
 fun PokedexScreen(
@@ -48,7 +49,7 @@ fun PokedexScreen(
         modifier = Modifier
             .fillMaxSize()
 //            .background(pokemonTeamPreviewBackground())
-            .padding(8.dp)
+            .padding(pokedexOverallPadding)
     ) {
         OutlinedTextField(
             textStyle = TextStyle(color = Color.Black),
@@ -60,7 +61,7 @@ fun PokedexScreen(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .padding(vertical = pokedexTextFieldPadding),
             keyboardOptions = KeyboardOptions.Default.copy(),
             keyboardActions = KeyboardActions(
                 onSearch = {
@@ -72,7 +73,7 @@ fun PokedexScreen(
         )
 
         if (loading) {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(pokedexLoadingHeaderHeight))
             CircularProgressIndicator(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)

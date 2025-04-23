@@ -16,16 +16,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,12 +41,32 @@ import coil3.compose.AsyncImage
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.domain.models.response.Ability
-import org.austral.pocketpedia.ui.screens.team.PokemonTeamViewModel
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
+import org.austral.pocketpedia.ui.theme.abilityTagCornerSize
+import org.austral.pocketpedia.ui.theme.abilityTagEndPadding
+import org.austral.pocketpedia.ui.theme.abilityTagHorizontalPadding
+import org.austral.pocketpedia.ui.theme.abilityTagTopPadding
+import org.austral.pocketpedia.ui.theme.abilityTagVerticalPadding
+import org.austral.pocketpedia.ui.theme.cardSectionCornerSize
+import org.austral.pocketpedia.ui.theme.cardSectionElevation
+import org.austral.pocketpedia.ui.theme.cardSectionSpacing
 import org.austral.pocketpedia.ui.theme.clearHyphens
 import org.austral.pocketpedia.ui.theme.getPokemonColor
+import org.austral.pocketpedia.ui.theme.pokemonBottomCornerSize
+import org.austral.pocketpedia.ui.theme.pokemonCardSectionHorizontalPadding
+import org.austral.pocketpedia.ui.theme.pokemonCardSectionInnerPadding
+import org.austral.pocketpedia.ui.theme.pokemonCardSectionVerticalPadding
+import org.austral.pocketpedia.ui.theme.pokemonHeaderPadding
+import org.austral.pocketpedia.ui.theme.pokemonImageMaxSize
+import org.austral.pocketpedia.ui.theme.pokemonImageTopPadding
+import org.austral.pocketpedia.ui.theme.pokemonScreenBottomPadding
+import org.austral.pocketpedia.ui.theme.pokemonScreenLoadingPadding
+import org.austral.pocketpedia.ui.theme.rowInfoSpacing
+import org.austral.pocketpedia.ui.theme.statBarMaxHeight
+import org.austral.pocketpedia.ui.theme.statBarSpacing
 import org.austral.pocketpedia.ui.theme.tidyStat
 import org.austral.pocketpedia.ui.theme.transformToTitle
+import org.austral.pocketpedia.ui.theme.typeRowSpacing
 
 @Composable
 fun PokemonScreen(
@@ -68,14 +87,14 @@ fun PokemonScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .background(Color(0xFFF8F8F8))
-                .padding(bottom = 88.dp)
+                .padding(bottom = pokemonScreenBottomPadding)
         ) {
             when {
                 loading -> {
                     CircularProgressIndicator(
                         color = Color.Gray,
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(pokemonScreenLoadingPadding)
                             .align(Alignment.CenterHorizontally)
                     )
                 }
@@ -97,9 +116,12 @@ fun PokemonScreen(
                             .fillMaxWidth()
                             .background(
                                 pokemonColor,
-                                shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                                shape = RoundedCornerShape(
+                                    bottomStart = pokemonBottomCornerSize,
+                                    bottomEnd = pokemonBottomCornerSize
+                                )
                             )
-                            .padding(16.dp)
+                            .padding(pokemonHeaderPadding)
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,8 +149,8 @@ fun PokemonScreen(
                                 model = p.sprites.frontDefault,
                                 contentDescription = p.name,
                                 modifier = Modifier
-                                    .size(180.dp)
-                                    .padding(top = 8.dp)
+                                    .size(pokemonImageMaxSize)
+                                    .padding(top = pokemonImageTopPadding)
                             )
                         }
                     }
@@ -162,15 +184,18 @@ fun PokemonScreen(
 @Composable
 fun CardSection(title: String, content: @Composable () -> Unit) {
     Card(
-        shape = RoundedCornerShape(12.dp),
-        elevation = 2.dp,
+        shape = RoundedCornerShape(cardSectionCornerSize),
+        elevation = cardSectionElevation,
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(
+                horizontal = pokemonCardSectionHorizontalPadding,
+                vertical = pokemonCardSectionVerticalPadding
+            )
             .fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(pokemonCardSectionInnerPadding)) {
             Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(cardSectionSpacing))
             content()
         }
     }
@@ -190,7 +215,7 @@ fun RowInfo(label: String, value: String, isBold: Boolean = false) {
             color = if (isBold) Color.Black else Color.Gray
         )
     }
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(rowInfoSpacing))
 }
 
 @Composable
@@ -202,11 +227,11 @@ fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
         Text(text = stringResource(R.string.type), fontSize = 16.sp, color = Color.Gray)
         Row {
             PokemonTypeTag(firstType)
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(typeRowSpacing))
             secondType?.let { it -> PokemonTypeTag(secondType) }
         }
     }
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(typeRowSpacing))
 }
 
 // Ability Tag UI
@@ -219,9 +244,9 @@ fun AbilityTag(ability: Ability) {
 
     Box(
         modifier = Modifier
-            .padding(end = 8.dp, top = 4.dp)
-            .background(Color(0xFFE0E0E0), shape = RoundedCornerShape(50))
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .padding(end = abilityTagEndPadding, top = abilityTagTopPadding)
+            .background(Color(0xFFE0E0E0), shape = RoundedCornerShape(abilityTagCornerSize))
+            .padding(horizontal = abilityTagHorizontalPadding, vertical = abilityTagVerticalPadding)
     ) {
         Text(
             text = clearHyphens(transformToTitle(abilityText)),
@@ -239,21 +264,21 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = curedLabel, fontSize = 16.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(statBarSpacing))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(12.dp)
+                .height(statBarMaxHeight)
                 .background(Color.LightGray, shape = CircleShape)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(value.toFloat() / maxStat)
-                    .height(12.dp)
+                    .height(statBarMaxHeight)
                     .background(barColor, shape = CircleShape)
             )
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(statBarSpacing))
         Text(
             text = value.toString(),
             fontSize = 14.sp,

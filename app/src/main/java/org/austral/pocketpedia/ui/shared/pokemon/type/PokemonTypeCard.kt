@@ -11,17 +11,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
+import org.austral.pocketpedia.ui.theme.pokemonTypeCornerSize
+import org.austral.pocketpedia.ui.theme.pokemonTypeHorizontalPadding
+import org.austral.pocketpedia.ui.theme.pokemonTypeVerticalPadding
 
 @Composable
 fun PokemonTypeTag(type: PokemonType) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(pokemonTypeCornerSize))
             .background(type.color)
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(
+                horizontal = pokemonTypeHorizontalPadding,
+                vertical = pokemonTypeVerticalPadding
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(

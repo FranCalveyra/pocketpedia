@@ -1,6 +1,5 @@
 package org.austral.pocketpedia.ui.screens.team
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,13 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
 import org.austral.pocketpedia.ui.shared.text.TypingText
+import org.austral.pocketpedia.ui.theme.FABTopPadding
+import org.austral.pocketpedia.ui.theme.pokemonTeamPadding
+import org.austral.pocketpedia.ui.theme.pokemonTeamSpaceBetween
+import org.austral.pocketpedia.ui.theme.pokemonTeamSpacing
 
 @Composable
 fun PokemonTeamScreen(
@@ -40,23 +42,21 @@ fun PokemonTeamScreen(
 ) {
 
     val viewModel = hiltViewModel<PokemonTeamViewModel>()
-    val teams:List<PokemonTeam> by viewModel.teams.collectAsState()
-
-    var selectedTeam by remember { mutableStateOf<PokemonTeam?>(null) }
+    val teams: List<PokemonTeam> by viewModel.teams.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.loadTeams() }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(pokemonTeamPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             TypingText(
                 text = stringResource(R.string.your_teams),
                 repeatTyping = true
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(pokemonTeamSpacing))
 
             Text(stringResource(R.string.work_in_progress))
 
@@ -67,7 +67,7 @@ fun PokemonTeamScreen(
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(pokemonTeamSpaceBetween))
             } else {
                 teams.forEach { team ->
                     PokemonCarousel(
@@ -75,7 +75,7 @@ fun PokemonTeamScreen(
                         pokemonList = team.team,
                         navController = navController,
                     )
-                    Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.height(pokemonTeamSpaceBetween))
                 }
             }
 
@@ -85,7 +85,7 @@ fun PokemonTeamScreen(
             onClick = { },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(top = 16.dp)
+                .padding(top = FABTopPadding)
         ) {
             Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_team))
         }

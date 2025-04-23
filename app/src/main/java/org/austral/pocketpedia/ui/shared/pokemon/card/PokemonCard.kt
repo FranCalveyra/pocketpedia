@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +29,9 @@ import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
+import org.austral.pocketpedia.ui.theme.cardBorderWidth
+import org.austral.pocketpedia.ui.theme.cardCornerSize
+import org.austral.pocketpedia.ui.theme.cardPadding
 import org.austral.pocketpedia.ui.theme.getContrastColor
 import org.austral.pocketpedia.ui.theme.getPokemonColor
 import org.austral.pocketpedia.ui.theme.transformToTitle
@@ -48,9 +50,9 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .border(2.dp, Color.Transparent, shape = RoundedCornerShape(18.dp))
-            .background(color = bgColor, shape = RoundedCornerShape(18.dp))
-            .padding(10.dp)
+            .border(cardBorderWidth, Color.Transparent, shape = RoundedCornerShape(cardCornerSize))
+            .background(color = bgColor, shape = RoundedCornerShape(cardCornerSize))
+            .padding(cardPadding)
             .clickable {
                 val route = "${PocketPediaRoutes.Pokemon.name}/${pokemon?.name}"
                 navController.navigate(route)
@@ -81,7 +83,7 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = cardPadding)
         ) {
             PokemonTypeTag(firstType)
             secondType?.let { PokemonTypeTag(it) }

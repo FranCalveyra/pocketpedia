@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,13 +15,14 @@ import org.austral.pocketpedia.ui.screens.pokedex.PokedexScreen
 import org.austral.pocketpedia.ui.screens.pokemon.PokemonScreen
 import org.austral.pocketpedia.ui.screens.profile.ProfileScreen
 import org.austral.pocketpedia.ui.screens.team.PokemonTeamScreen
+import org.austral.pocketpedia.ui.theme.navBarPadding
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     val modifier = Modifier
         .fillMaxSize()
         .padding(innerPadding)
-        .padding(20.dp)
+        .padding(navBarPadding)
     NavHost(
         navController = navController, startDestination = PocketPediaRoutes.Home.name,
         modifier = modifier

@@ -12,9 +12,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.austral.pocketpedia.ui.theme.typingTextPadding
 
 @Composable
 fun TypingText(
@@ -65,7 +65,7 @@ fun TypingText(
         fontSize = fontSize,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
-            .padding(8.dp)
+            .padding(typingTextPadding)
     )
 }
 

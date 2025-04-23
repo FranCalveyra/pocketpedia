@@ -33,7 +33,6 @@ val BackgroundGradient = Brush.verticalGradient(
 )
 
 
-
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,

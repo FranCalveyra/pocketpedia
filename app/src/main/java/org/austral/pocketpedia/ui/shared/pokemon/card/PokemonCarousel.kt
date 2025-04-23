@@ -3,7 +3,6 @@ package org.austral.pocketpedia.ui.shared.pokemon.card
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,11 +20,14 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
+import org.austral.pocketpedia.ui.theme.carouselCardMaxWidth
+import org.austral.pocketpedia.ui.theme.carouselHorizontalPadding
+import org.austral.pocketpedia.ui.theme.carouselSpaceBetween
+import org.austral.pocketpedia.ui.theme.carouselVerticalPadding
 
 @Composable
 fun PokemonCarousel(
@@ -43,28 +45,28 @@ fun PokemonCarousel(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp),
+            .padding(horizontal = carouselHorizontalPadding),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = title,
             fontSize = 18.sp,
             style = TextStyle(
-                fontFamily = FontFamily(Font(org.austral.pocketpedia.R.font.jetbrains_mono_regular)),
+                fontFamily = FontFamily(Font(R.font.jetbrains_mono_regular)),
                 textAlign = TextAlign.Start
             )
         )
 
         LazyRow(
             state = listState,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(carouselSpaceBetween),
             modifier = Modifier.fillMaxWidth()
         ) {
             items(pokemonList) { pokemon ->
                 Box(
                     modifier = Modifier
-                        .width(224.dp)
-                        .padding(vertical = 8.dp)
+                        .width(carouselCardMaxWidth)
+                        .padding(vertical = carouselVerticalPadding)
                 ) {
                     PokemonCard(pokemon, navController)
                 }

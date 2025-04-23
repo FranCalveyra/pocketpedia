@@ -14,31 +14,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.ui.screens.pokemon.TypeRow
+import org.austral.pocketpedia.ui.theme.pokemonSearchResultCardCornerSize
+import org.austral.pocketpedia.ui.theme.pokemonSearchResultCardElevation
+import org.austral.pocketpedia.ui.theme.resultCardImageMaxSize
+import org.austral.pocketpedia.ui.theme.resultCardInnerPadding
+import org.austral.pocketpedia.ui.theme.resultCardOuterPadding
+import org.austral.pocketpedia.ui.theme.resultCardSpacing
 
 @Composable
 fun PokemonSearchResultCard(pokemon: Pokemon, onClick: () -> Unit) {
     Card(
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(pokemonSearchResultCardCornerSize),
         modifier = Modifier
-            .padding(8.dp)
+            .padding(resultCardOuterPadding)
             .fillMaxWidth()
             .clickable { onClick() },
-        elevation = 4.dp
+        elevation = pokemonSearchResultCardElevation
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(resultCardInnerPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = pokemon.sprites.frontDefault,
                 contentDescription = pokemon.name,
-                modifier = Modifier.size(64.dp)
+                modifier = Modifier.size(resultCardImageMaxSize)
             )
-            Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(resultCardSpacing))
             Column {
                 Text(
                     text = pokemon.name.replaceFirstChar { it.uppercase() },
