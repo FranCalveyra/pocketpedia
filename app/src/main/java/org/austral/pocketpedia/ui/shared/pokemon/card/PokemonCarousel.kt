@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
-import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.carouselCardMaxWidth
 import org.austral.pocketpedia.ui.theme.carouselHorizontalPadding
 import org.austral.pocketpedia.ui.theme.carouselSpaceBetween
@@ -47,7 +47,7 @@ fun PokemonCarousel(
     ) {
         Text(
             text = title,
-            style = Typography.bodyLarge.copy(
+            style = typography.bodyLarge.copy(
                 textAlign = TextAlign.Start
             )
         )

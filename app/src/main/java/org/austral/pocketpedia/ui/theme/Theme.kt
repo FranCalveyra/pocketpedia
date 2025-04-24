@@ -1,16 +1,12 @@
 package org.austral.pocketpedia.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 
 val primaryColors = listOf<Color>(
     Color(0xFFFFC8CC),
@@ -63,18 +59,34 @@ fun PocketPediaTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> PocketPediaDarkColorScheme
+        else -> ClassicColorScheme
     }
+
+    val typography = typography(darkTheme)
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content
     )
+}
+
+@Composable
+private fun typography(darkTheme: Boolean = isSystemInDarkTheme()): androidx.compose.material3.Typography {
+    if (darkTheme) {
+        return Typography.copy(
+            titleLarge = Typography.titleLarge.copy(color = DarkTextColor),
+            titleMedium = Typography.titleMedium.copy(color = DarkTextColor),
+            titleSmall = Typography.titleSmall.copy(color = DarkTextColor),
+            bodyLarge = Typography.bodyLarge.copy(color = DarkTextColor),
+            bodyMedium = Typography.bodyMedium.copy(color = DarkTextColor),
+            bodySmall = Typography.bodySmall.copy(color = DarkTextColor),
+        )
+    } else return Typography
 }

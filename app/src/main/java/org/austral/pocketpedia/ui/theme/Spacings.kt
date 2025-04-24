@@ -24,3 +24,7 @@ val pokemonTeamSpaceBetween = 24.dp
 
 // Pokemon Carousel
 val carouselSpaceBetween = 16.dp
+
+// Pokemon Screen
+val errorSpacing = 12.dp
+val sectionSpacing = 10.dp

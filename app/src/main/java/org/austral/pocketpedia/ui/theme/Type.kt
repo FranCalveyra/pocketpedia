@@ -11,49 +11,54 @@ import androidx.compose.ui.unit.sp
 
 val fontFamily = FontFamily(Font(org.austral.pocketpedia.R.font.jetbrains_mono_regular))
 
-
 val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
     bodyMedium = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 22.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
     bodyLarge = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
     titleSmall = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 28.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
     titleMedium = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 28.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
     titleLarge = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 28.sp,
         lineHeight = 30.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = LightTextColor
     ),
 
     /* Other default text styles to override

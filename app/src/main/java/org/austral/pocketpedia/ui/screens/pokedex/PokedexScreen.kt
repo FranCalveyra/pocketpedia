@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
@@ -53,12 +53,18 @@ fun PokedexScreen(
             .padding(pokedexOverallPadding)
     ) {
         OutlinedTextField(
-            textStyle = TextStyle(color = Color.Black),
+            textStyle = typography.titleSmall,
             value = query,
             onValueChange = {
                 viewModel.onQueryChanged(it)
             },
-            placeholder = { Text(stringResource(R.string.search_pokemon), color = Color.Black) },
+            placeholder = {
+                Text(
+                    stringResource(R.string.search_pokemon), style = typography.bodyMedium.copy(
+                        color = Color.Gray
+                    )
+                )
+            },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()

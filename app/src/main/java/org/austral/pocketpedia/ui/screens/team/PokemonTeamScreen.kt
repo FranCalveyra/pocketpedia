@@ -10,10 +10,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,7 +30,6 @@ import org.austral.pocketpedia.domain.models.team.PokemonTeam
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
 import org.austral.pocketpedia.ui.shared.text.FixedTypingText
 import org.austral.pocketpedia.ui.theme.FABTopPadding
-import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.pokemonTeamPadding
 import org.austral.pocketpedia.ui.theme.pokemonTeamSpaceBetween
 import org.austral.pocketpedia.ui.theme.pokemonTeamSpacing
@@ -54,18 +54,21 @@ fun PokemonTeamScreen(
             FixedTypingText(
                 text = stringResource(R.string.your_teams),
                 repeatTyping = true,
-                style = Typography.titleLarge
+                style = typography.titleLarge
             )
 
             Spacer(Modifier.height(pokemonTeamSpacing))
 
-            Text(stringResource(R.string.work_in_progress), style = Typography.bodyMedium)
+            Text(
+                stringResource(R.string.work_in_progress),
+                style = typography.bodyMedium,
+            )
 
             if (teams.isEmpty()) {
                 Text(
                     stringResource(R.string.no_teams_yet),
-                    style = Typography.bodyMedium,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f), // TODO: replace for own color scheme
+                    style = typography.bodyMedium,
+                    color = colorScheme.onSurface,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Spacer(Modifier.height(pokemonTeamSpaceBetween))

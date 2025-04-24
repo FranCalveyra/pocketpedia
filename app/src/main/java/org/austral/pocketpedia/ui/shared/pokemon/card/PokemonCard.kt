@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,6 @@ import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
-import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.cardBorderWidth
 import org.austral.pocketpedia.ui.theme.cardCornerSize
 import org.austral.pocketpedia.ui.theme.cardPadding
@@ -87,7 +87,7 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
         ) {
             PokemonTypeTag(firstType)
             secondType?.let { PokemonTypeTag(it) }
-            Text("#${pokemon?.id ?: 0}", style = Typography.bodySmall, color = textColor)
+            Text("#${pokemon?.id ?: 0}", style = typography.bodySmall, color = textColor)
         }
     }
 }

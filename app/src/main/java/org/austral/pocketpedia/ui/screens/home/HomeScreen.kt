@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -18,7 +19,6 @@ import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
 import org.austral.pocketpedia.ui.shared.text.DynamicTypingText
-import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.headerHeight
 
 
@@ -49,7 +49,7 @@ fun HomeScreen(navController: NavHostController) {
                 DynamicTypingText(
                     text = text,
                     repeatTyping = true,
-                    style = Typography.titleLarge
+                    style = typography.titleLarge
                 )
             }
 

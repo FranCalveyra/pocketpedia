@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
-import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.profileScreenPadding
 
 @Composable
@@ -24,7 +24,7 @@ fun ProfileScreen(navController: NavHostController) {
     ) {
         Text(
             stringResource(R.string.work_in_progress),
-            style = Typography.bodyMedium.copy(textAlign = TextAlign.Center)
+            style = typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
     }
 }
