@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.shared.pokemon.type
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -11,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
+import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.pokemonTypeCornerSize
 import org.austral.pocketpedia.ui.theme.pokemonTypeHorizontalPadding
 import org.austral.pocketpedia.ui.theme.pokemonTypeVerticalPadding
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonTypeTag(type: PokemonType) {
     Box(
@@ -32,8 +35,9 @@ fun PokemonTypeTag(type: PokemonType) {
         Text(
             text = type.displayName,
             color = Color.White,
-            fontWeight = FontWeight.Bold,
-            fontSize = 12.sp
+            style = Typography.bodySmall.copy(
+                fontWeight = FontWeight.Bold
+            )
         )
     }
 }

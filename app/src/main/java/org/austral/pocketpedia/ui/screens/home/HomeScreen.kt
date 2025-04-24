@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,9 +19,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
-import org.austral.pocketpedia.ui.shared.text.TypingText
+import org.austral.pocketpedia.ui.shared.text.DynamicTypingText
+import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.headerHeight
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val text = LocalContext.current.getString(R.string.welcome_title)
@@ -44,9 +48,10 @@ fun HomeScreen(navController: NavHostController) {
                     .height(headerHeight),
                 contentAlignment = Alignment.Center
             ) {
-                TypingText(
+                DynamicTypingText(
                     text = text,
-                    repeatTyping = true
+                    repeatTyping = true,
+                    style = Typography.titleLarge
                 )
             }
 

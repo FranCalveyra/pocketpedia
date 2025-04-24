@@ -82,7 +82,7 @@ fun PokedexScreen(
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(results) { pokemon ->
-                PokemonSearchResultCard(pokemon) {
+                PokedexSearchResultCard(pokemon) {
                     navController.navigate(
                         "${PocketPediaRoutes.Pokemon.name}/${pokemon.name.lowercase()}"
                     )

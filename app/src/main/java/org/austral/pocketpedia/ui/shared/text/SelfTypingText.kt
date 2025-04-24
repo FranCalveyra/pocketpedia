@@ -1,5 +1,8 @@
 package org.austral.pocketpedia.ui.shared.text
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,18 +13,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.delay
 import org.austral.pocketpedia.ui.theme.typingTextPadding
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun TypingText(
+fun DynamicTypingText(
     text: String,
     typingSpeed: Long = 100L,
     repeatTyping: Boolean = false,
-    fontSize: TextUnit = 24.sp
+    style: TextStyle,
 ) {
     var displayedText by remember { mutableStateOf("") }
     var isDeleting by remember { mutableStateOf(false) }
@@ -62,10 +65,37 @@ fun TypingText(
 
     Text(
         text = displayedText + if (showCursor) "▌" else "",
-        fontSize = fontSize,
-        fontWeight = FontWeight.Bold,
+        style = style,
         modifier = Modifier
             .padding(typingTextPadding)
     )
 }
+
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun FixedTypingText(
+    text: String,
+    typingSpeed: Long = 100L,
+    repeatTyping: Boolean = false,
+    style: TextStyle
+) {
+    Box {
+        // 1) Invisible placeholder reserves full space
+        Text(
+            text = text,
+            style = style,
+            color = Color.Transparent,
+            modifier = Modifier.padding(typingTextPadding)
+        )
+
+        // 2) Actual animated text on top
+        DynamicTypingText(
+            text = text,
+            typingSpeed = typingSpeed,
+            repeatTyping = repeatTyping,
+            style = style
+        )
+    }
+}
+
 

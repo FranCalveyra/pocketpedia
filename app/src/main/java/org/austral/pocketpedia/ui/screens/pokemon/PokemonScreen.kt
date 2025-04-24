@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.screens.pokemon
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,7 +35,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -42,6 +43,7 @@ import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.domain.models.response.Ability
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
+import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.abilityTagCornerSize
 import org.austral.pocketpedia.ui.theme.abilityTagEndPadding
 import org.austral.pocketpedia.ui.theme.abilityTagHorizontalPadding
@@ -68,6 +70,7 @@ import org.austral.pocketpedia.ui.theme.tidyStat
 import org.austral.pocketpedia.ui.theme.transformToTitle
 import org.austral.pocketpedia.ui.theme.typeRowSpacing
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonScreen(
     pokemonName: String,
@@ -139,11 +142,14 @@ fun PokemonScreen(
 
                             Text(
                                 text = transformToTitle(p.name),
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.Bold,
+                                style = Typography.titleMedium,
                                 color = Color.White
                             )
-                            Text(text = "#${p.id}", fontSize = 18.sp, color = Color.White)
+                            Text(
+                                text = "#${p.id}",
+                                style = Typography.bodyLarge,
+                                color = Color.White
+                            )
 
                             AsyncImage(
                                 model = p.sprites.frontDefault,
@@ -181,6 +187,7 @@ fun PokemonScreen(
 
 
 // Reusable section for cards
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun CardSection(title: String, content: @Composable () -> Unit) {
     Card(
@@ -194,7 +201,7 @@ fun CardSection(title: String, content: @Composable () -> Unit) {
             .fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(pokemonCardSectionInnerPadding)) {
-            Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text(text = title, style = Typography.titleSmall, color = Color.Black) // TODO: colours
             Spacer(modifier = Modifier.height(cardSectionSpacing))
             content()
         }
@@ -202,29 +209,36 @@ fun CardSection(title: String, content: @Composable () -> Unit) {
 }
 
 // Row for displaying basic info like height, weight, type
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun RowInfo(label: String, value: String, isBold: Boolean = false) {
     Row(
         modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = label, fontSize = 16.sp, color = Color.Gray)
+        Text(text = label, style = Typography.bodyMedium, color = Color.Gray)
         Text(
             text = value,
-            fontSize = 16.sp,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+            style = Typography.bodyMedium.copy(
+                fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+            ),
             color = if (isBold) Color.Black else Color.Gray
         )
     }
     Spacer(modifier = Modifier.height(rowInfoSpacing))
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
     Row(
         modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = stringResource(R.string.type), fontSize = 16.sp, color = Color.Gray)
+        Text(
+            text = stringResource(R.string.type),
+            style = Typography.bodyMedium,
+            color = Color.Gray
+        )
         Row {
             PokemonTypeTag(firstType)
             Spacer(modifier = Modifier.width(typeRowSpacing))
@@ -235,6 +249,7 @@ fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
 }
 
 // Ability Tag UI
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun AbilityTag(ability: Ability) {
     val abilityName = ability.ability.name
@@ -250,20 +265,22 @@ fun AbilityTag(ability: Ability) {
     ) {
         Text(
             text = clearHyphens(transformToTitle(abilityText)),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
+            style = Typography.bodySmall.copy(
+                fontWeight = FontWeight.SemiBold,
+            ),
             color = Color.Black
         )
     }
 }
 
 // Base Stats Bar UI
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
     val curedLabel = if (label.contains("-")) clearHyphens(label) else transformToTitle(label)
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = curedLabel, fontSize = 16.sp, color = Color.Gray)
+        Text(text = curedLabel, style = Typography.bodyMedium, color = Color.Gray)
         Spacer(modifier = Modifier.height(statBarSpacing))
         Row(
             modifier = Modifier
@@ -281,13 +298,16 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
         Spacer(modifier = Modifier.height(statBarSpacing))
         Text(
             text = value.toString(),
-            fontSize = 14.sp,
+            style = Typography.bodySmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
             color = Color.Black,
-            fontWeight = FontWeight.Bold
-        )
+
+            )
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun PokemonScreenPreview() {

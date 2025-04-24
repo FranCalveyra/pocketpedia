@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.shared.pokemon.card
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import org.austral.pocketpedia.R
@@ -29,6 +30,7 @@ import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.ui.shared.navigation.PocketPediaRoutes
 import org.austral.pocketpedia.ui.shared.pokemon.type.PokemonTypeTag
+import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.cardBorderWidth
 import org.austral.pocketpedia.ui.theme.cardCornerSize
 import org.austral.pocketpedia.ui.theme.cardPadding
@@ -36,6 +38,7 @@ import org.austral.pocketpedia.ui.theme.getContrastColor
 import org.austral.pocketpedia.ui.theme.getPokemonColor
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
     val firstType = pokemon?.types?.firstOrNull() ?: PokemonType.NORMAL
@@ -87,7 +90,7 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
         ) {
             PokemonTypeTag(firstType)
             secondType?.let { PokemonTypeTag(it) }
-            Text("#${pokemon?.id ?: 0}", fontSize = 14.sp, color = textColor)
+            Text("#${pokemon?.id ?: 0}", style = Typography.bodySmall, color = textColor)
         }
     }
 }

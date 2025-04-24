@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.screens.team
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,9 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +29,14 @@ import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
-import org.austral.pocketpedia.ui.shared.text.TypingText
+import org.austral.pocketpedia.ui.shared.text.FixedTypingText
 import org.austral.pocketpedia.ui.theme.FABTopPadding
+import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.pokemonTeamPadding
 import org.austral.pocketpedia.ui.theme.pokemonTeamSpaceBetween
 import org.austral.pocketpedia.ui.theme.pokemonTeamSpacing
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonTeamScreen(
     navController: NavHostController,
@@ -48,23 +49,26 @@ fun PokemonTeamScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(pokemonTeamPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            TypingText(
+            FixedTypingText(
                 text = stringResource(R.string.your_teams),
-                repeatTyping = true
+                repeatTyping = true,
+                style = Typography.titleLarge
             )
+
             Spacer(Modifier.height(pokemonTeamSpacing))
 
-            Text(stringResource(R.string.work_in_progress))
+            Text(stringResource(R.string.work_in_progress), style = Typography.bodyMedium)
 
             if (teams.isEmpty()) {
                 Text(
                     stringResource(R.string.no_teams_yet),
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                    style = Typography.bodyMedium,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f), // TODO: replace for own color scheme
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Spacer(Modifier.height(pokemonTeamSpaceBetween))
