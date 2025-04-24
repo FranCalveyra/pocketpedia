@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.shared.pokemon.card
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +25,7 @@ import org.austral.pocketpedia.ui.theme.carouselHorizontalPadding
 import org.austral.pocketpedia.ui.theme.carouselSpaceBetween
 import org.austral.pocketpedia.ui.theme.carouselVerticalPadding
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun PokemonCarousel(
     title: String,
@@ -73,7 +71,6 @@ fun PokemonCarousel(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     backgroundColor = 0xFFFFFFFF,
     showBackground = true

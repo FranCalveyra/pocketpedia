@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.screens.pokedex
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +24,6 @@ import org.austral.pocketpedia.ui.theme.resultCardInnerPadding
 import org.austral.pocketpedia.ui.theme.resultCardOuterPadding
 import org.austral.pocketpedia.ui.theme.resultCardSpacing
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokedexSearchResultCard(pokemon: Pokemon, onClick: () -> Unit) {
     Card(

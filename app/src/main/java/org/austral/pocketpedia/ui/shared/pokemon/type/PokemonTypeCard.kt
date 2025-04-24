@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.shared.pokemon.type
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -19,7 +17,6 @@ import org.austral.pocketpedia.ui.theme.pokemonTypeCornerSize
 import org.austral.pocketpedia.ui.theme.pokemonTypeHorizontalPadding
 import org.austral.pocketpedia.ui.theme.pokemonTypeVerticalPadding
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonTypeTag(type: PokemonType) {
     Box(

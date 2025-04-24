@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.screens.profile
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,7 +14,6 @@ import org.austral.pocketpedia.R
 import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.profileScreenPadding
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun ProfileScreen(navController: NavHostController) {
     Column(

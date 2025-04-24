@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.shared.text
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -18,7 +16,6 @@ import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.delay
 import org.austral.pocketpedia.ui.theme.typingTextPadding
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun DynamicTypingText(
     text: String,
@@ -71,7 +68,7 @@ fun DynamicTypingText(
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun FixedTypingText(
     text: String,

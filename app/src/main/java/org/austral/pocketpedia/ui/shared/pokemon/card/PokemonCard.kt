@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.shared.pokemon.card
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,7 +36,6 @@ import org.austral.pocketpedia.ui.theme.getContrastColor
 import org.austral.pocketpedia.ui.theme.getPokemonColor
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
     val firstType = pokemon?.types?.firstOrNull() ?: PokemonType.NORMAL

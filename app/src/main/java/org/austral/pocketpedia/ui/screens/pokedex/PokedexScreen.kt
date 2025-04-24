@@ -33,6 +33,7 @@ import org.austral.pocketpedia.ui.theme.pokedexLoadingHeaderHeight
 import org.austral.pocketpedia.ui.theme.pokedexOverallPadding
 import org.austral.pocketpedia.ui.theme.pokedexTextFieldPadding
 
+
 @Composable
 fun PokedexScreen(
     navController: NavHostController,

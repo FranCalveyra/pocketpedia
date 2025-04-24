@@ -1,7 +1,6 @@
 package org.austral.pocketpedia.ui.theme
 
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -56,7 +55,6 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PocketPediaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

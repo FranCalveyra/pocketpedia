@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.screens.pokemon
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,7 +68,6 @@ import org.austral.pocketpedia.ui.theme.tidyStat
 import org.austral.pocketpedia.ui.theme.transformToTitle
 import org.austral.pocketpedia.ui.theme.typeRowSpacing
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PokemonScreen(
     pokemonName: String,
@@ -187,7 +184,7 @@ fun PokemonScreen(
 
 
 // Reusable section for cards
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun CardSection(title: String, content: @Composable () -> Unit) {
     Card(
@@ -209,7 +206,6 @@ fun CardSection(title: String, content: @Composable () -> Unit) {
 }
 
 // Row for displaying basic info like height, weight, type
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun RowInfo(label: String, value: String, isBold: Boolean = false) {
     Row(
@@ -227,7 +223,6 @@ fun RowInfo(label: String, value: String, isBold: Boolean = false) {
     Spacer(modifier = Modifier.height(rowInfoSpacing))
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
     Row(
@@ -249,7 +244,6 @@ fun TypeRow(firstType: PokemonType, secondType: PokemonType?) {
 }
 
 // Ability Tag UI
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun AbilityTag(ability: Ability) {
     val abilityName = ability.ability.name
@@ -274,7 +268,6 @@ fun AbilityTag(ability: Ability) {
 }
 
 // Base Stats Bar UI
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
     val curedLabel = if (label.contains("-")) clearHyphens(label) else transformToTitle(label)
@@ -307,7 +300,6 @@ fun StatBar(label: String, value: Int, maxStat: Int = 150, barColor: Color) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun PokemonScreenPreview() {

@@ -1,7 +1,5 @@
 package org.austral.pocketpedia.ui.screens.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +21,7 @@ import org.austral.pocketpedia.ui.shared.text.DynamicTypingText
 import org.austral.pocketpedia.ui.theme.Typography
 import org.austral.pocketpedia.ui.theme.headerHeight
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val text = LocalContext.current.getString(R.string.welcome_title)
