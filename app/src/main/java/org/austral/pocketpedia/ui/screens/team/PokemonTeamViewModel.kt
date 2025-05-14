@@ -9,19 +9,46 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.austral.pocketpedia.R
 import org.austral.pocketpedia.api.ApiServiceImpl
 import org.austral.pocketpedia.domain.mappers.PokemonMapper
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
+import org.austral.pocketpedia.security.biometric.BiometricAuthManager
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonTeamViewModel @Inject constructor(
     private val apiService: ApiServiceImpl,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val biometricAuthManager: BiometricAuthManager,
 ) : ViewModel() {
     private var _teams = MutableStateFlow(listOf<PokemonTeam>())
     val teams = _teams.asStateFlow()
+
+    private var _isAuthenticated = MutableStateFlow(false)
+    val isAuthenticated = _isAuthenticated.asStateFlow()
+
+    fun authenticate(context: Context) {
+        biometricAuthManager.authenticate(
+            context,
+            onError = {
+                _isAuthenticated.value = false
+                showShortToast(context.getString(R.string.authentication_error))
+            },
+            onSuccess = {
+                _isAuthenticated.value = true
+            },
+            onFail = {
+                _isAuthenticated.value = false
+                showShortToast(context.getString(R.string.authentication_failed))
+            }
+        )
+    }
+
+    private fun showShortToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
 
     fun createTeam(teamName: String) {
         viewModelScope.launch {

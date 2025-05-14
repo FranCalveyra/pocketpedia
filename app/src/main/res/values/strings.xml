@@ -2,6 +2,7 @@
     <string name="app_name">PocketPedia</string>
     <string name="welcome_title">Welcome to PocketPedia!</string>
     <string name="type">Type</string>
+    <!--   Still need to figure how to translate stats and this information-->
     <string name="sp_def">Sp. Def</string>
     <string name="base_stats">Base Stats</string>
     <string name="hp">HP</string>
@@ -24,4 +25,15 @@
     <string name="team_name">Team Name</string>
     <string name="work_in_progress">Work in progress!</string>
     <string name="no_pokemon_found">No Pokemon found :(</string>
+    <string name="my_team">My Team</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="log_in_with_biometric">Log in using your biometric credentials</string>
+    <string name="authentication_error">There was an error in the authentication</string>
+    <string name="authentication_failed">The authentication failed, try again</string>
+    <string name="auth_needed">You need to authenticate</string>
+    <string name="phone_not_prepared">This phone is not prepared for biometric features</string>
+    <string name="unavailable_biometric">Biometric auth is unavailable</string>
+    <string name="biometric_security_update_needed">You can\'t use biometric auth until you have updated your security details</string>
+    <string name="android_software_update_needed">You can\'t use biometric auth with this Android version</string>
+    <string name="cant_use_biometric">You can\'t use biometric auth</string>
 </resources>

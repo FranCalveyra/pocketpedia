@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -36,7 +37,7 @@ fun BottomNavbar(
     val pokemonTeamTab = NavItem(
         pocketPediaRoute = PocketPediaRoutes.PokemonTeam,
         icon = ImageVector.vectorResource(R.drawable.pokemon_team),
-        label = "My Team"
+        label = stringResource(R.string.my_team)
     )
 
     val profileTab = NavItem(
