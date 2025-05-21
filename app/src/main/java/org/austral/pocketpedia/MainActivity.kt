@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import org.austral.pocketpedia.ui.shared.navigation.BottomNavbar
 import org.austral.pocketpedia.ui.shared.navigation.NavHostComposable
@@ -20,6 +21,7 @@ import org.austral.pocketpedia.ui.theme.PocketPediaTheme
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()

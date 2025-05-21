@@ -3,9 +3,8 @@ package org.austral.pocketpedia.ui.theme
 import androidx.compose.ui.graphics.Color
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 
-fun transformToTitle(name: String): String {
-    return name[0].toUpperCase() + name.substring(1)
-}
+fun transformToTitle(name: String): String = name[0].uppercase() + name.substring(1)
+
 
 fun getPokemonColor(pokemon: Pokemon?): Color {
     val original = pokemon?.types?.firstOrNull()?.color ?: Color.Red
@@ -16,9 +15,8 @@ fun getPokemonColor(pokemon: Pokemon?): Color {
     )
 }
 
-fun clearHyphens(string: String): String {
-    return string.split("-").joinToString(" ") { transformToTitle(it) }
-}
+fun clearHyphens(string: String): String =
+    string.split("-").joinToString(" ") { transformToTitle(it) }
 
 fun getContrastColor(backgroundColor: Color): Color {
     // Luminance formula using perceived brightness
@@ -28,6 +26,4 @@ fun getContrastColor(backgroundColor: Color): Color {
     return if (luminance > 0.5f) Color.Black else Color.White
 }
 
-fun tidyStat(stat: Long): String {
-    return "${stat / 10.0}"
-}
+fun tidyStat(stat: Long): String = "${stat / 10.0}"
