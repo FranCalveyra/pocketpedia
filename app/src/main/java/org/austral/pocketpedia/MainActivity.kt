@@ -1,5 +1,7 @@
 package org.austral.pocketpedia
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
+import org.austral.pocketpedia.notification.notificationChannelID
 import org.austral.pocketpedia.ui.shared.navigation.BottomNavbar
 import org.austral.pocketpedia.ui.shared.navigation.NavHostComposable
 import org.austral.pocketpedia.ui.theme.BackgroundGradient
@@ -22,6 +25,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+        createNotificationChannel()
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
@@ -37,5 +41,17 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
+    }
+
+    private fun createNotificationChannel() {
+        val notificationChannel = NotificationChannel(
+            notificationChannelID,
+            "PocketPedia Notification",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        val notificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.createNotificationChannel(notificationChannel)
     }
 }

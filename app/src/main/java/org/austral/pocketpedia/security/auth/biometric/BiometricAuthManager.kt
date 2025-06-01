@@ -1,4 +1,4 @@
-package org.austral.pocketpedia.security.biometric
+package org.austral.pocketpedia.security.auth.biometric
 
 import android.content.Context
 import android.os.Build

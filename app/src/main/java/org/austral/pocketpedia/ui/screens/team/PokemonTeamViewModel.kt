@@ -14,7 +14,7 @@ import org.austral.pocketpedia.api.ApiServiceImpl
 import org.austral.pocketpedia.domain.mappers.PokemonMapper
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
-import org.austral.pocketpedia.security.biometric.BiometricAuthManager
+import org.austral.pocketpedia.security.auth.biometric.BiometricAuthManager
 import javax.inject.Inject
 
 @HiltViewModel

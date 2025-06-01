@@ -44,7 +44,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
         composable(route = PocketPediaRoutes.Profile.name) {
-            ProfileScreen(navController)
+            ProfileScreen()
         }
     }
 }
