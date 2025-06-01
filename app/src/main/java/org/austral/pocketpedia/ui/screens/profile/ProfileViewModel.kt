@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,7 @@ class ProfileViewModel @Inject constructor(
         // Instantiate a Google sign-in request
         val googleIdOption = GetGoogleIdOption.Builder()
             // Your server\'s client ID, not your Android client ID.
-            .setServerClientId(context.getString(R.string.google_server_id))
+            .setServerClientId(context.getString(R.string.firebase_web_client_id))
             // Only show accounts previously used to sign in.
             .setFilterByAuthorizedAccounts(false)
             .build()
@@ -69,7 +70,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun handleSignIn(credential: Credential) {
         // Check if credential is of type Google ID
-        if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+        if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
             // Create Google ID Token
             val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
 

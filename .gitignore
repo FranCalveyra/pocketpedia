@@ -15,5 +15,5 @@
 .cxx
 local.properties
 .*env
-google-services.json
+app/google-services.json
 app/src/main/res/values/tokens.xml
