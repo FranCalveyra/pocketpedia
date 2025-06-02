@@ -13,14 +13,14 @@ import javax.inject.Inject
 class BiometricAuthManager @Inject constructor() {
 
     fun authenticate(
-        context: Context,
+        activity: androidx.fragment.app.FragmentActivity,
         onError: () -> Unit,
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
-        val executor = ContextCompat.getMainExecutor(context)
+        val executor = ContextCompat.getMainExecutor(activity)
         val biometricPrompt = BiometricPrompt(
-            context as FragmentActivity,
+            activity,
             executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -46,8 +46,8 @@ class BiometricAuthManager @Inject constructor() {
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
-            .setTitle(context.getString(R.string.biometric_authentication))
-            .setSubtitle(context.getString(R.string.log_in_with_biometric))
+            .setTitle(activity.getString(R.string.biometric_authentication))
+            .setSubtitle(activity.getString(R.string.log_in_with_biometric))
             .build()
 
         biometricPrompt.authenticate(promptInfo)

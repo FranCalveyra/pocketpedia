@@ -14,41 +14,15 @@ import org.austral.pocketpedia.api.ApiServiceImpl
 import org.austral.pocketpedia.domain.mappers.PokemonMapper
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
-import org.austral.pocketpedia.security.auth.biometric.BiometricAuthManager
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonTeamViewModel @Inject constructor(
     private val apiService: ApiServiceImpl,
-    @ApplicationContext private val context: Context,
-    private val biometricAuthManager: BiometricAuthManager,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private var _teams = MutableStateFlow(listOf<PokemonTeam>())
     val teams = _teams.asStateFlow()
-
-    private var _isAuthenticated = MutableStateFlow(false)
-    val isAuthenticated = _isAuthenticated.asStateFlow()
-
-    fun authenticate(context: Context) {
-        biometricAuthManager.authenticate(
-            context,
-            onError = {
-                _isAuthenticated.value = false
-                showShortToast(context.getString(R.string.authentication_error))
-            },
-            onSuccess = {
-                _isAuthenticated.value = true
-            },
-            onFail = {
-                _isAuthenticated.value = false
-                showShortToast(context.getString(R.string.authentication_failed))
-            }
-        )
-    }
-
-    private fun showShortToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
 
     fun createTeam(teamName: String) {
         viewModelScope.launch {
@@ -57,7 +31,6 @@ class PokemonTeamViewModel @Inject constructor(
             )
         }
     }
-
 
     fun addPokemonToTeam(teamName: String, pokemonName: String) {
         apiService.getPokemon(
@@ -73,7 +46,6 @@ class PokemonTeamViewModel @Inject constructor(
             loadingFinished = { }
         )
     }
-
 
     private fun addPokemon(teamName: String, newPokemon: Pokemon) = viewModelScope.launch {
         val team = _teams.value.find { it.teamName == teamName } ?: return@launch

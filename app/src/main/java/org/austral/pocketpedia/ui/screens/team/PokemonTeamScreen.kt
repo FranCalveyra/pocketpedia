@@ -1,13 +1,8 @@
 package org.austral.pocketpedia.ui.screens.team
 
 
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -23,16 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
+import org.austral.pocketpedia.ui.screens.pokedex.PokedexViewModel
+import org.austral.pocketpedia.ui.shared.auth.BiometricAuthViewModel
+import org.austral.pocketpedia.ui.shared.auth.BiometricAuthedComposable
 import org.austral.pocketpedia.ui.shared.pokemon.card.PokemonCarousel
 import org.austral.pocketpedia.ui.shared.text.FixedTypingText
 import org.austral.pocketpedia.ui.theme.FABTopPadding
@@ -44,72 +43,63 @@ import org.austral.pocketpedia.ui.theme.pokemonTeamSpacing
 fun PokemonTeamScreen(
     navController: NavHostController,
 ) {
-    val context = LocalContext.current
     val viewModel = hiltViewModel<PokemonTeamViewModel>()
     val teams: List<PokemonTeam> by viewModel.teams.collectAsState()
-    val isAuthenticated by viewModel.isAuthenticated.collectAsState()
+    val pokedexViewModel: PokedexViewModel = hiltViewModel()
+    val searchResults by pokedexViewModel.searchResults.collectAsState()
+
+    var showDialog by remember { mutableStateOf(false) }
+    var query by remember { mutableStateOf("") }
+    var selectedTeam by remember { mutableStateOf(teams.firstOrNull()?.teamName ?: "") }
+    var teamMenuExpanded by remember { mutableStateOf(false) }
+    var newTeamName by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.loadTeams()
-        viewModel.authenticate(context)
     }
 
-    val biometricAuthManager = remember { BiometricManager.from(context) }
-    val isBiometricAvailable =
-        remember { biometricAuthManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL) }
+    val authViewModel = hiltViewModel<BiometricAuthViewModel>()
+    val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
 
-
-    when (isBiometricAvailable) {
-        BiometricManager.BIOMETRIC_SUCCESS -> {
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (isAuthenticated) {
-                    PokemonTeamScreenBody(teams, navController)
-                    FloatingActionButton(
-                        backgroundColor = Color.Gray,
-                        onClick = { },
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(top = FABTopPadding)
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = stringResource(R.string.create_team)
-                        )
-                    }
-                } else {
-                    Text(stringResource(R.string.auth_needed))
-                }
-            }
+    BiometricAuthedComposable(
+        onAuthenticate = { activity -> authViewModel.authenticate(activity) },
+        isAuthenticated = isAuthenticated
+    ) {
+        PokemonTeamScreenBody(teams, navController)
+        FloatingActionButton(
+            backgroundColor = Color.Gray,
+            onClick = { showDialog = true },
+            modifier = Modifier.padding(top = FABTopPadding)
+        ) {
+            Icon(
+                Icons.Default.Add,
+                contentDescription = stringResource(R.string.create_team)
+            )
         }
-
-        BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-            // No biometric features available on this device
-            Text(text = stringResource(R.string.phone_not_prepared))
-        }
-
-        BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-            // Biometric features are currently unavailable.
-            Text(text = stringResource(R.string.unavailable_biometric))
-        }
-
-        BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
-            // Biometric features available but a security vulnerability has been discovered
-            Text(text = stringResource(R.string.biometric_security_update_needed))
-        }
-
-        BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-            // Biometric features are currently unavailable because the specified options are incompatible with the current Android version..
-            Text(text = stringResource(R.string.android_software_update_needed))
-        }
-
-        BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-            // Unable to determine whether the user can authenticate using biometrics
-            Text(text = stringResource(R.string.cant_use_biometric))
-        }
-
-        BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-            // The user can't authenticate because no biometric or device credential is enrolled.
-            Text(text = stringResource(R.string.cant_use_biometric))
+        if (showDialog) {
+            AddPokemonDialog(
+                teams = teams,
+                searchResults = searchResults,
+                query = query,
+                onQueryChange = {
+                    query = it
+                    pokedexViewModel.onQueryChanged(it)
+                },
+                selectedTeam = selectedTeam,
+                onTeamSelected = { selectedTeam = it },
+                newTeamName = newTeamName,
+                onNewTeamNameChange = { newTeamName = it },
+                onCreateTeam = {
+                    viewModel.createTeam(newTeamName)
+                    selectedTeam = newTeamName
+                    newTeamName = ""
+                },
+                onPokemonClick = { pokemon ->
+                    viewModel.addPokemonToTeam(selectedTeam, pokemon.name)
+                    showDialog = false
+                },
+                onDismiss = { showDialog = false }
+            )
         }
     }
 }
