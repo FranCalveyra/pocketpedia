@@ -3,13 +3,10 @@ package org.austral.pocketpedia.ui.shared.auth
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.austral.pocketpedia.R
@@ -32,12 +29,10 @@ fun BiometricAuthedComposable(
 
     when (status) {
         BiometricManager.BIOMETRIC_SUCCESS -> {
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (isAuthenticated) {
-                    content()
-                } else {
-                    Text(text = stringResource(R.string.auth_needed))
-                }
+            if (isAuthenticated) {
+                content()
+            } else {
+                Text(text = stringResource(R.string.auth_needed))
             }
         }
 

@@ -1,8 +1,10 @@
 package org.austral.pocketpedia.ui.screens.team
 
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -51,7 +53,6 @@ fun PokemonTeamScreen(
     var showDialog by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     var selectedTeam by remember { mutableStateOf(teams.firstOrNull()?.teamName ?: "") }
-    var teamMenuExpanded by remember { mutableStateOf(false) }
     var newTeamName by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
@@ -65,41 +66,45 @@ fun PokemonTeamScreen(
         onAuthenticate = { activity -> authViewModel.authenticate(activity) },
         isAuthenticated = isAuthenticated
     ) {
-        PokemonTeamScreenBody(teams, navController)
-        FloatingActionButton(
-            backgroundColor = Color.Gray,
-            onClick = { showDialog = true },
-            modifier = Modifier.padding(top = FABTopPadding)
-        ) {
-            Icon(
-                Icons.Default.Add,
-                contentDescription = stringResource(R.string.create_team)
-            )
-        }
-        if (showDialog) {
-            AddPokemonDialog(
-                teams = teams,
-                searchResults = searchResults,
-                query = query,
-                onQueryChange = {
-                    query = it
-                    pokedexViewModel.onQueryChanged(it)
-                },
-                selectedTeam = selectedTeam,
-                onTeamSelected = { selectedTeam = it },
-                newTeamName = newTeamName,
-                onNewTeamNameChange = { newTeamName = it },
-                onCreateTeam = {
-                    viewModel.createTeam(newTeamName)
-                    selectedTeam = newTeamName
-                    newTeamName = ""
-                },
-                onPokemonClick = { pokemon ->
-                    viewModel.addPokemonToTeam(selectedTeam, pokemon.name)
-                    showDialog = false
-                },
-                onDismiss = { showDialog = false }
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            PokemonTeamScreenBody(teams, navController)
+            FloatingActionButton(
+                backgroundColor = Color.Gray,
+                onClick = { showDialog = true },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(top = FABTopPadding)
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.create_team)
+                )
+            }
+            if (showDialog) {
+                AddPokemonDialog(
+                    teams = teams,
+                    searchResults = searchResults,
+                    query = query,
+                    onQueryChange = {
+                        query = it
+                        pokedexViewModel.onQueryChanged(it)
+                    },
+                    selectedTeam = selectedTeam,
+                    onTeamSelected = { selectedTeam = it },
+                    newTeamName = newTeamName,
+                    onNewTeamNameChange = { newTeamName = it },
+                    onCreateTeam = {
+                        viewModel.createTeam(newTeamName)
+                        selectedTeam = newTeamName
+                        newTeamName = ""
+                    },
+                    onPokemonClick = { pokemon ->
+                        viewModel.addPokemonToTeam(selectedTeam, pokemon.name)
+                        showDialog = false
+                    },
+                    onDismiss = { showDialog = false }
+                )
+            }
         }
     }
 }
@@ -119,11 +124,6 @@ private fun PokemonTeamScreenBody(teams: List<PokemonTeam>, navController: NavHo
         )
 
         Spacer(Modifier.height(pokemonTeamSpacing))
-
-        Text(
-            stringResource(R.string.work_in_progress),
-            style = typography.bodyMedium,
-        )
 
         if (teams.isEmpty()) {
             Text(

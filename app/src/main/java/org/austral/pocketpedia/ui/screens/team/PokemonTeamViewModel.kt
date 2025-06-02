@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.austral.pocketpedia.R
 import org.austral.pocketpedia.api.ApiServiceImpl
 import org.austral.pocketpedia.domain.mappers.PokemonMapper
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
@@ -49,6 +48,7 @@ class PokemonTeamViewModel @Inject constructor(
 
     private fun addPokemon(teamName: String, newPokemon: Pokemon) = viewModelScope.launch {
         val team = _teams.value.find { it.teamName == teamName } ?: return@launch
+        if (team.team.size == 6) return@launch // Team is full
         val updated = team.copy(team = team.team + newPokemon)
         _teams.emit(_teams.value - team + updated)
     }

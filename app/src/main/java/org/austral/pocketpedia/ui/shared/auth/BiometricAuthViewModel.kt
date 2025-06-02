@@ -25,14 +25,22 @@ class BiometricAuthViewModel @Inject constructor(
             activity,
             onError = {
                 _isAuthenticated.value = false
-                Toast.makeText(context, context.getString(R.string.authentication_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.authentication_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             },
             onSuccess = {
                 _isAuthenticated.value = true
             },
             onFail = {
                 _isAuthenticated.value = false
-                Toast.makeText(context, context.getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.authentication_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         )
     }

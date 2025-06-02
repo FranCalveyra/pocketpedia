@@ -1,12 +1,10 @@
 package org.austral.pocketpedia.security.auth.biometric
 
-import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import org.austral.pocketpedia.R
 import javax.inject.Inject
 
