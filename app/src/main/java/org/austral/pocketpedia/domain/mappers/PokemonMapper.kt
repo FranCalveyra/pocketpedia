@@ -1,8 +1,10 @@
 package org.austral.pocketpedia.domain.mappers
 
+import org.austral.pocketpedia.domain.entities.PokemonEntity
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.pokemon.PokemonType
 import org.austral.pocketpedia.domain.models.response.PokemonResponse
+import org.austral.pocketpedia.domain.models.response.Sprite
 
 class PokemonMapper {
     companion object {
@@ -16,6 +18,20 @@ class PokemonMapper {
                 sprites = response.sprites,
                 stats = response.stats,
                 types = response.types.map { mapStringToPokemonType(it.type.name) }
+            )
+        }
+
+        fun pokemonFromEntity(pokemonEntity: PokemonEntity): Pokemon {
+            return Pokemon(
+                id = pokemonEntity.pokemonId,
+                name = pokemonEntity.name,
+                height = 0L,
+                weight = 0L,
+                abilities = emptyList(),
+                types = pokemonEntity.typesCsv.split(",")
+                    .map { mapStringToPokemonType(it) },
+                stats = emptyList(),
+                sprites = Sprite(frontDefault = pokemonEntity.spriteUrl)
             )
         }
 

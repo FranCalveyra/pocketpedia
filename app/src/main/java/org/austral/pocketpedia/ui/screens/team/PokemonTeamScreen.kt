@@ -55,9 +55,6 @@ fun PokemonTeamScreen(
     var selectedTeam by remember { mutableStateOf(teams.firstOrNull()?.teamName ?: "") }
     var newTeamName by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadTeams()
-    }
 
     val authViewModel = hiltViewModel<BiometricAuthViewModel>()
     val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
