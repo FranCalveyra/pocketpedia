@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
-import org.austral.pocketpedia.notification.notificationChannelID
+import org.austral.pocketpedia.infrastructure.notification.notificationChannelID
 import org.austral.pocketpedia.ui.shared.navigation.BottomNavbar
 import org.austral.pocketpedia.ui.shared.navigation.NavHostComposable
 import org.austral.pocketpedia.ui.theme.BackgroundGradient

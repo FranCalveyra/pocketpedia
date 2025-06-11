@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -108,6 +107,7 @@ fun PokemonTeamScreen(
 
 @Composable
 private fun PokemonTeamScreenBody(teams: List<PokemonTeam>, navController: NavHostController) {
+    val viewModel = hiltViewModel<PokemonTeamViewModel>()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -136,6 +136,9 @@ private fun PokemonTeamScreenBody(teams: List<PokemonTeam>, navController: NavHo
                     title = team.teamName,
                     pokemonList = team.team,
                     navController = navController,
+                    onRemovePokemonClick = { pokemon ->
+                        viewModel.removePokemonFromTeam(team.teamName, pokemon!!.name)
+                    }
                 )
                 Spacer(Modifier.height(pokemonTeamSpaceBetween))
             }

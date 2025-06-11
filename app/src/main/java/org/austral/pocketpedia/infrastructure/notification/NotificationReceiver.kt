@@ -1,4 +1,4 @@
-package org.austral.pocketpedia.notification
+package org.austral.pocketpedia.infrastructure.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent

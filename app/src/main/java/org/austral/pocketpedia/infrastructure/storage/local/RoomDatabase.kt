@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import dagger.Provides
 import org.austral.pocketpedia.domain.entities.PokemonEntity
 import org.austral.pocketpedia.domain.entities.PokemonInTeam
 import org.austral.pocketpedia.domain.entities.TeamEntity

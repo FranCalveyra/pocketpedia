@@ -5,13 +5,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +43,7 @@ import org.austral.pocketpedia.ui.theme.getPokemonColor
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
 @Composable
-fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
+fun PokemonCard(pokemon: Pokemon?, navController: NavHostController, onRemoveClick: (() -> Unit)?) {
     val firstType = pokemon?.types?.firstOrNull() ?: PokemonType.NORMAL
     val secondType = if ((pokemon?.types?.size ?: 0) > 1) pokemon?.types?.get(1) else null
 
@@ -45,50 +51,60 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController) {
         getPokemonColor(pokemon)
     val textColor = getContrastColor(bgColor)
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(cardBorderWidth, Color.Transparent, shape = RoundedCornerShape(cardCornerSize))
-            .background(color = bgColor, shape = RoundedCornerShape(cardCornerSize))
-            .padding(cardPadding)
-            .clickable {
-                val route = "${PocketPediaRoutes.Pokemon.name}/${pokemon?.name}"
-                navController.navigate(route)
-            }
-    ) {
-        CardTitle(pokemon?.name ?: "Charizard", textColor)
-
-        val imageModifier = Modifier
-            .height(LocalContext.current.resources.displayMetrics.heightPixels.dp * 0.15f / LocalContext.current.resources.displayMetrics.density)
-            .aspectRatio(1f)
-
-        if (pokemon == null) {
-            Image(
-                painter = painterResource(R.drawable.missigno),
-                contentDescription = "",
-                modifier = imageModifier
-            )
-        } else {
-            AsyncImage(
-                model = pokemon.sprites.frontDefault,
-                contentDescription = "",
-                modifier = imageModifier
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
+    Box {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = cardPadding)
+                .border(
+                    cardBorderWidth,
+                    Color.Transparent,
+                    shape = RoundedCornerShape(cardCornerSize)
+                )
+                .background(color = bgColor, shape = RoundedCornerShape(cardCornerSize))
+                .padding(cardPadding)
+                .clickable {
+                    val route = "${PocketPediaRoutes.Pokemon.name}/${pokemon?.name}"
+                    navController.navigate(route)
+                }
         ) {
-            PokemonTypeTag(firstType)
-            secondType?.let { PokemonTypeTag(it) }
-            Text("#${pokemon?.id ?: 0}", style = typography.bodySmall, color = textColor)
+            CardTitle(pokemon?.name ?: "Charizard", textColor)
+
+            val imageModifier = Modifier
+                .height(LocalContext.current.resources.displayMetrics.heightPixels.dp * 0.15f / LocalContext.current.resources.displayMetrics.density)
+                .aspectRatio(1f)
+
+            if (pokemon == null) {
+                Image(
+                    painter = painterResource(R.drawable.missigno),
+                    contentDescription = "",
+                    modifier = imageModifier
+                )
+            } else {
+                AsyncImage(
+                    model = pokemon.sprites.frontDefault,
+                    contentDescription = "",
+                    modifier = imageModifier
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = cardPadding)
+            ) {
+                PokemonTypeTag(firstType)
+                secondType?.let { PokemonTypeTag(it) }
+                Text("#${pokemon?.id ?: 0}", style = typography.bodySmall, color = textColor)
+            }
         }
+        RemoveButton(
+            onRemoveClick = onRemoveClick,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 
@@ -99,4 +115,23 @@ private fun CardTitle(title: String, textColor: Color) {
         curedTitle,
         fontWeight = FontWeight.W800, color = textColor
     )
+}
+
+@Composable
+private fun RemoveButton(onRemoveClick: (() -> Unit)?, modifier: Modifier = Modifier) {
+    if (onRemoveClick != null) {
+        FloatingActionButton(
+            onClick = onRemoveClick,
+            modifier = modifier
+                .padding(4.dp)
+                .size(32.dp),
+            backgroundColor = Color.Red
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Remove Pokémon",
+                tint = Color.White
+            )
+        }
+    }
 }

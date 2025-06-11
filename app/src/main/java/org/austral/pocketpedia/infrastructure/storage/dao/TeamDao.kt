@@ -7,8 +7,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.austral.pocketpedia.domain.entities.PokemonEntity
-import org.austral.pocketpedia.domain.entities.TeamEntity
 import org.austral.pocketpedia.domain.entities.PokemonInTeam
+import org.austral.pocketpedia.domain.entities.TeamEntity
 import org.austral.pocketpedia.domain.entities.TeamWithPokemons
 
 @Dao
