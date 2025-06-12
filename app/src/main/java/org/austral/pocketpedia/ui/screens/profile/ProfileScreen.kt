@@ -71,6 +71,7 @@ fun ProfileScreen() {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val user by viewModel.userData.collectAsStateWithLifecycle()
     val selectedTrainer by viewModel.selectedTrainer.collectAsStateWithLifecycle()
+    val notificationViewModel = hiltViewModel<ScheduleNotificationViewModel>()
     var showNotificationDialog by remember { mutableStateOf(false) }
 
     val postNotificationPermission =
@@ -134,7 +135,7 @@ fun ProfileScreen() {
         NotificationTimeDialog(
             onDismiss = { showNotificationDialog = false },
             onTimeSelected = { minutes ->
-                viewModel.scheduleNotification(minutes)
+                notificationViewModel.scheduleNotification(minutes)
                 showNotificationDialog = false
             }
         )

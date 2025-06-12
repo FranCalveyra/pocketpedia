@@ -1,10 +1,6 @@
 package org.austral.pocketpedia.ui.screens.profile
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +14,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.austral.pocketpedia.domain.repository.Trainer
 import org.austral.pocketpedia.domain.repository.UserPreferencesRepository
-import org.austral.pocketpedia.infrastructure.notification.NotificationReceiver
 import org.austral.pocketpedia.security.auth.firebase.FirebaseAuthManager
 import javax.inject.Inject
 
@@ -74,27 +69,5 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onFailure() = viewModelScope.launch { _userData.emit(null) }
-
-    @SuppressLint("ServiceCast")
-    fun scheduleNotification(delayMinutes: Int) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, NotificationReceiver::class.java)
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val triggerTime: Long = 5000L
-
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            triggerTime,
-            pendingIntent
-        )
-        println("New alarm set in the next $delayMinutes!")
-    }
 
 }
