@@ -1,10 +1,15 @@
 package org.austral.pocketpedia.ui.screens.profile
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,16 +17,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.ExposedDropdownMenuDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,9 +46,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.repository.Trainer
-import org.austral.pocketpedia.ui.shared.image.GifImage
 import org.austral.pocketpedia.ui.theme.gifImageSize
 import org.austral.pocketpedia.ui.theme.gifImageSpacing
 import org.austral.pocketpedia.ui.theme.googleButtonBorderStroke
@@ -45,14 +59,28 @@ import org.austral.pocketpedia.ui.theme.googleButtonCornerShape
 import org.austral.pocketpedia.ui.theme.googleButtonPadding
 import org.austral.pocketpedia.ui.theme.googleButtonSize
 import org.austral.pocketpedia.ui.theme.googleButtonSpacerWidth
+import org.austral.pocketpedia.ui.theme.notificationTextBottomPadding
 import org.austral.pocketpedia.ui.theme.profileScreenPadding
 import org.austral.pocketpedia.ui.theme.profileSpacerHeight
+import org.austral.pocketpedia.ui.theme.teamModalSpacing
 
+@OptIn(ExperimentalPermissionsApi::class)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun ProfileScreen() {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val user by viewModel.userData.collectAsStateWithLifecycle()
     val selectedTrainer by viewModel.selectedTrainer.collectAsStateWithLifecycle()
+    var showNotificationDialog by remember { mutableStateOf(false) }
+
+    val postNotificationPermission =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+
+    LaunchedEffect(key1 = true) {
+        if (!postNotificationPermission.status.isGranted) {
+            postNotificationPermission.launchPermissionRequest()
+        }
+    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -68,6 +96,17 @@ fun ProfileScreen() {
             )
         } else {
             Column(modifier = Modifier.align(Alignment.Center)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = { showNotificationDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = stringResource(R.string.schedule_notification)
+                        )
+                    }
+                }
                 Text(
                     stringResource(R.string.welcome_trainer, user?.displayName ?: ""),
                     style = typography.titleLarge,
@@ -89,6 +128,75 @@ fun ProfileScreen() {
                 )
             }
         }
+    }
+
+    if (showNotificationDialog) {
+        NotificationTimeDialog(
+            onDismiss = { showNotificationDialog = false },
+            onTimeSelected = { minutes ->
+                viewModel.scheduleNotification(minutes)
+                showNotificationDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+private fun NotificationTimeDialog(
+    onDismiss: () -> Unit,
+    onTimeSelected: (Int) -> Unit
+) {
+    // In minutes
+    val timeOptions = listOf(
+        1,
+        5,
+        10,
+        30,
+        60,
+        60 * 2, // 2 hours
+        60 * 6, // 6 hours
+        60 * 12, // 12 hours
+        60 * 24 // 24 hours
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.schedule_notification)) },
+        text = {
+            Column {
+                Text(
+                    text = stringResource(R.string.schedule_notification_description),
+                    modifier = Modifier.padding(bottom = notificationTextBottomPadding)
+                )
+                timeOptions.forEach { minutes ->
+                    Button(
+                        onClick = { onTimeSelected(minutes) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Text(formatTimeOption(minutes))
+                    }
+                    Spacer(modifier = Modifier.height(teamModalSpacing))
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
+}
+
+private fun formatTimeOption(minutes: Int): String {
+    return when {
+        minutes < 60 -> "$minutes minute${if (minutes > 1) "s" else ""}"
+        minutes == 60 -> "1 hour"
+        minutes < 60 * 24 -> "${minutes / 60} hours"
+        else -> "24 hours"
     }
 }
 
@@ -140,7 +248,11 @@ fun ProfileBody(
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        GifImage(resource = selectedTrainer.drawable, modifier = Modifier.size(gifImageSize))
+        AsyncImage(
+            model = selectedTrainer.drawable,
+            contentDescription = null,
+            modifier = Modifier.size(gifImageSize)
+        )
         Spacer(modifier = Modifier.height(gifImageSpacing))
         ExposedDropdownMenuBox(
             expanded = expanded,

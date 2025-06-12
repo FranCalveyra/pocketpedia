@@ -16,13 +16,12 @@ const val notificationChannelID = "pocketpedia_notification_channel"
 class NotificationReceiver : BroadcastReceiver() {
     // Method called when the broadcast is receivedAdd commentMore actions
     override fun onReceive(context: Context, intent: Intent) {
-
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-
-        val pendingIntent: PendingIntent =
-            PendingIntent.getActivity(context, 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            context, 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE
+        )
 
         val notificationManager = context.getSystemService(NotificationManager::class.java)
 

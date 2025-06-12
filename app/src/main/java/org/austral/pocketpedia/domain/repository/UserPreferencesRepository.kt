@@ -18,7 +18,8 @@ const val SELECTED_TRAINER_KEY = "selected_trainer"
 @Singleton
 class UserPreferencesRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private val userPreferenceDao: UserPreferenceDao = PocketPediaDatabase.getDatabase(context).userPreferenceDao()
+    private val userPreferenceDao: UserPreferenceDao =
+        PocketPediaDatabase.getDatabase(context).userPreferenceDao()
 
     val trainers = listOf(
         Trainer("Red", R.drawable.red),

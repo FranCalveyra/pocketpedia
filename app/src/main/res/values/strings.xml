@@ -48,4 +48,7 @@
     <string name="sign_out">Sign out</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="welcome_trainer">Welcome, Trainer %1$s!</string>
+    <string name="pocketpedia_notification">PocketPedia Notification</string>
+    <string name="schedule_notification">Schedule Notification</string>
+    <string name="schedule_notification_description">Schedule a reminder to continue your Pokémon journey</string>
 </resources>

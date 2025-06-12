@@ -46,7 +46,7 @@ class MainActivity : FragmentActivity() {
     private fun createNotificationChannel() {
         val notificationChannel = NotificationChannel(
             notificationChannelID,
-            "PocketPedia Notification",
+            getString(R.string.pocketpedia_notification),
             NotificationManager.IMPORTANCE_HIGH
         )
         val notificationManager =

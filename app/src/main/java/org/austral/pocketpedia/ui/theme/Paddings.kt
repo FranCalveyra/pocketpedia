@@ -54,8 +54,12 @@ val carouselVerticalPadding = 8.dp
 
 // Profile Screen
 val profileScreenPadding = 16.dp
+
 // - Google Button
 val googleButtonPadding = 16.dp
+
+// - Notification Time Modal
+val notificationTextBottomPadding = 16.dp
 
 // Self Typing Text
 val typingTextPadding = 8.dp
