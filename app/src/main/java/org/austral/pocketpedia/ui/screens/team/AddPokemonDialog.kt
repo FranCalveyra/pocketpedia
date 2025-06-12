@@ -20,7 +20,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
 
@@ -41,17 +43,21 @@ fun AddPokemonDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = if (teams.isEmpty()) "Create a Team" else "Add Pokémon")
+            Text(
+                text = if (teams.isEmpty()) stringResource(R.string.create_a_team) else stringResource(
+                    R.string.add_pokemon
+                )
+            )
         },
         text = {
             Column {
                 // Always show team creation UI
-                Text(text = "Create new team:")
+                Text(text = stringResource(R.string.create_new_team))
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
                     value = newTeamName,
                     onValueChange = onNewTeamNameChange,
-                    placeholder = { Text(text = "Team Name") },
+                    placeholder = { Text(text = stringResource(R.string.team_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -59,7 +65,7 @@ fun AddPokemonDialog(
                     onClick = onCreateTeam,
                     enabled = newTeamName.isNotBlank()
                 ) {
-                    Text(text = "Create")
+                    Text(text = stringResource(R.string.create))
                 }
 
                 // If there are teams, show the add-Pokémon UI
@@ -69,7 +75,7 @@ fun AddPokemonDialog(
                     TextField(
                         value = query,
                         onValueChange = onQueryChange,
-                        placeholder = { Text(text = "Search Pokémon") },
+                        placeholder = { Text(text = stringResource(R.string.search_pokemon)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -116,7 +122,7 @@ fun AddPokemonDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel))
             }
         }
     )

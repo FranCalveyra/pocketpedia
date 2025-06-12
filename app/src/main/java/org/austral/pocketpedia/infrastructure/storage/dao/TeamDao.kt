@@ -26,6 +26,10 @@ interface TeamDao {
     @Query("SELECT * FROM teams")
     fun getTeamsWithPokemons(): Flow<List<TeamWithPokemons>>
 
+    @Transaction
+    @Query("SELECT * FROM teams WHERE name = :name LIMIT 1")
+    fun getTeamsWithPokemonsByName(name: String): Flow<TeamWithPokemons>
+
     @Query("SELECT * FROM teams WHERE name = :name LIMIT 1")
     suspend fun getTeamByName(name: String): TeamEntity?
 

@@ -36,4 +36,12 @@
     <string name="biometric_security_update_needed">You can\'t use biometric auth until you have updated your security details</string>
     <string name="android_software_update_needed">You can\'t use biometric auth with this Android version</string>
     <string name="cant_use_biometric">You can\'t use biometric auth</string>
+    <string name="remove_pokemon">Remove Pokémon</string>
+    <string name="become_a_pokemon_master_today">Become a Pokemon Master today!</string>
+    <string name="don_t_slack_off_now">Don\'t slack off now</string>
+    <string name="create_a_team">Create a Team</string>
+    <string name="add_pokemon">Add Pokémon</string>
+    <string name="create_new_team">Create new team:</string>
+    <string name="create">Create</string>
+    <string name="failed_to_load">Failed to load %1$s</string>
 </resources>

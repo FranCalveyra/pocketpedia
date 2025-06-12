@@ -8,9 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.austral.pocketpedia.R
 import org.austral.pocketpedia.api.ApiServiceImpl
 import org.austral.pocketpedia.domain.entities.PokemonEntity
 import org.austral.pocketpedia.domain.entities.PokemonInTeam
@@ -61,7 +63,10 @@ class PokemonTeamViewModel @Inject constructor(
                 teamDao.insertPokemonToTeam(PokemonInTeam(team.teamId, pokemon.id))
             }
         }, onFail = {
-            Toast.makeText(context, "Failed to load $pokemonName", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_to_load, pokemonName), Toast.LENGTH_SHORT
+            ).show()
         }, loadingFinished = { })
     }
 
@@ -73,6 +78,8 @@ class PokemonTeamViewModel @Inject constructor(
                 ?.find { it.team.teamId == team.teamId }?.pokemons ?: return@launch
             val pokemonEntity = pokemons.find { it.name == pokemonName } ?: return@launch
             teamDao.removePokemonFromTeam(team.teamId, pokemonEntity.pokemonId)
+
+            removeTeamIfEmpty(team)
         }
     }
 
@@ -84,4 +91,12 @@ class PokemonTeamViewModel @Inject constructor(
         }
     }
 
+    private suspend fun removeTeamIfEmpty(team: TeamEntity) {
+        val pokemonsAfterDeletion =
+            teamDao.getTeamsWithPokemonsByName(team.name).first().pokemons
+        if (pokemonsAfterDeletion.isEmpty()) {
+            teamDao.deleteTeam(team.teamId)
+        }
+    }
 }
+

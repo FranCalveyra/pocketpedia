@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -103,7 +105,9 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController, onRemoveCli
         }
         RemoveButton(
             onRemoveClick = onRemoveClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .offset(x = 8.dp, y = 8.dp)
         )
     }
 }
@@ -123,13 +127,12 @@ private fun RemoveButton(onRemoveClick: (() -> Unit)?, modifier: Modifier = Modi
         FloatingActionButton(
             onClick = onRemoveClick,
             modifier = modifier
-                .padding(4.dp)
                 .size(32.dp),
             backgroundColor = Color.Red
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "Remove Pokémon",
+                contentDescription = stringResource(R.string.remove_pokemon),
                 tint = Color.White
             )
         }
