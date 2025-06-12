@@ -7,20 +7,24 @@ import androidx.room.RoomDatabase
 import org.austral.pocketpedia.domain.entities.PokemonEntity
 import org.austral.pocketpedia.domain.entities.PokemonInTeam
 import org.austral.pocketpedia.domain.entities.TeamEntity
+import org.austral.pocketpedia.domain.entities.UserPreference
 import org.austral.pocketpedia.infrastructure.storage.dao.TeamDao
+import org.austral.pocketpedia.infrastructure.storage.dao.UserPreferenceDao
 
 
 @Database(
     entities = [
         TeamEntity::class,
         PokemonEntity::class,
-        PokemonInTeam::class
+        PokemonInTeam::class,
+        UserPreference::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class PocketPediaDatabase : RoomDatabase() {
     abstract fun teamDao(): TeamDao
+    abstract fun userPreferenceDao(): UserPreferenceDao
 
     companion object {
         @Volatile
@@ -32,7 +36,8 @@ abstract class PocketPediaDatabase : RoomDatabase() {
                     context.applicationContext,
                     PocketPediaDatabase::class.java,
                     "learning_android_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

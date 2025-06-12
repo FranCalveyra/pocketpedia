@@ -80,4 +80,5 @@ dependencies {
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.accompanist.permissions)
+    implementation(libs.coil.gif)
 }

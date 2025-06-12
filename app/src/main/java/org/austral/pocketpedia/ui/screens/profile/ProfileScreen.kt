@@ -14,26 +14,44 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.austral.pocketpedia.R
+import org.austral.pocketpedia.domain.repository.Trainer
+import org.austral.pocketpedia.ui.shared.image.GifImage
+import org.austral.pocketpedia.ui.theme.gifImageSize
+import org.austral.pocketpedia.ui.theme.gifImageSpacing
+import org.austral.pocketpedia.ui.theme.googleButtonBorderStroke
+import org.austral.pocketpedia.ui.theme.googleButtonCornerShape
+import org.austral.pocketpedia.ui.theme.googleButtonPadding
+import org.austral.pocketpedia.ui.theme.googleButtonSize
+import org.austral.pocketpedia.ui.theme.googleButtonSpacerWidth
 import org.austral.pocketpedia.ui.theme.profileScreenPadding
+import org.austral.pocketpedia.ui.theme.profileSpacerHeight
 
 @Composable
 fun ProfileScreen() {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val user by viewModel.userData.collectAsStateWithLifecycle()
+    val selectedTrainer by viewModel.selectedTrainer.collectAsStateWithLifecycle()
 
     Box(
         contentAlignment = Alignment.Center,
@@ -43,16 +61,29 @@ fun ProfileScreen() {
     ) {
         if (user == null) {
             GoogleLoginButton(
-                modifier = Modifier, onClick = viewModel::login, label = "Continue with Google"
+                modifier = Modifier,
+                onClick = viewModel::login,
+                label = stringResource(R.string.continue_with_google)
             )
         } else {
             Column(modifier = Modifier.align(Alignment.Center)) {
-                ProfileBody(Modifier.align(Alignment.CenterHorizontally))
-                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    stringResource(R.string.welcome_trainer, user?.displayName ?: ""),
+                    style = typography.titleLarge,
+                    overflow = TextOverflow.Clip,
+                    maxLines = 2
+                )
+                ProfileBody(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    selectedTrainer = selectedTrainer,
+                    trainers = viewModel.trainers,
+                    onTrainerSelected = viewModel::selectTrainer
+                )
+                Spacer(modifier = Modifier.height(profileSpacerHeight))
                 GoogleLoginButton(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     onClick = viewModel::logout,
-                    label = "Sign out"
+                    label = stringResource(R.string.sign_out)
                 )
             }
         }
@@ -82,25 +113,60 @@ private fun GoogleButtonUI(
             backgroundColor = Color.White,
             contentColor = Color.Black,
         ),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, Color.LightGray),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+        shape = RoundedCornerShape(googleButtonCornerShape),
+        border = BorderStroke(googleButtonBorderStroke, Color.LightGray),
+        contentPadding = PaddingValues(googleButtonPadding)
     ) {
         Image(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(googleButtonSize),
             painter = painterResource(googleLogo),
             contentDescription = null
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(googleButtonSpacerWidth))
         Text(label)
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ProfileBody(modifier: Modifier = Modifier) {
-    Text(
-        stringResource(R.string.work_in_progress),
-        style = typography.bodyMedium.copy(textAlign = TextAlign.Center),
-        modifier = modifier
-    )
+fun ProfileBody(
+    modifier: Modifier = Modifier,
+    selectedTrainer: Trainer,
+    trainers: List<Trainer>,
+    onTrainerSelected: (Trainer) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        GifImage(resource = selectedTrainer.drawable, modifier = Modifier.size(gifImageSize))
+        Spacer(modifier = Modifier.height(gifImageSpacing))
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            TextField(
+                readOnly = true,
+                value = selectedTrainer.name,
+                onValueChange = {},
+                label = { Text(stringResource(R.string.select_your_trainer_avatar)) },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                colors = ExposedDropdownMenuDefaults.textFieldColors()
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                trainers.forEach { trainer ->
+                    DropdownMenuItem(onClick = {
+                        onTrainerSelected(trainer)
+                        expanded = false
+                    }) {
+                        Text(text = trainer.name)
+                    }
+                }
+            }
+        }
+    }
 }

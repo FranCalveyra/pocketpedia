@@ -42,6 +42,8 @@ import org.austral.pocketpedia.ui.theme.cardCornerSize
 import org.austral.pocketpedia.ui.theme.cardPadding
 import org.austral.pocketpedia.ui.theme.getContrastColor
 import org.austral.pocketpedia.ui.theme.getPokemonColor
+import org.austral.pocketpedia.ui.theme.removeButtonOffset
+import org.austral.pocketpedia.ui.theme.removeButtonSize
 import org.austral.pocketpedia.ui.theme.transformToTitle
 
 @Composable
@@ -107,7 +109,7 @@ fun PokemonCard(pokemon: Pokemon?, navController: NavHostController, onRemoveCli
             onRemoveClick = onRemoveClick,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .offset(x = 8.dp, y = 8.dp)
+                .offset(x = removeButtonOffset, y = removeButtonOffset)
         )
     }
 }
@@ -127,7 +129,7 @@ private fun RemoveButton(onRemoveClick: (() -> Unit)?, modifier: Modifier = Modi
         FloatingActionButton(
             onClick = onRemoveClick,
             modifier = modifier
-                .size(32.dp),
+                .size(removeButtonSize),
             backgroundColor = Color.Red
         ) {
             Icon(

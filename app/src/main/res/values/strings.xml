@@ -44,4 +44,8 @@
     <string name="create_new_team">Create new team:</string>
     <string name="create">Create</string>
     <string name="failed_to_load">Failed to load %1$s</string>
+    <string name="select_your_trainer_avatar">Select your Trainer Avatar</string>
+    <string name="sign_out">Sign out</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="welcome_trainer">Welcome, Trainer %1$s!</string>
 </resources>

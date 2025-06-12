@@ -8,6 +8,7 @@ val resultCardSpacing = 16.dp
 // Pokemon Card
 //  - Card Section
 val cardSectionSpacing = 8.dp
+val removeButtonOffset = 8.dp
 
 // - Row Info
 val rowInfoSpacing = 4.dp
@@ -21,6 +22,9 @@ val statBarSpacing = 4.dp
 // Pokemon Team
 val pokemonTeamSpacing = 16.dp
 val pokemonTeamSpaceBetween = 24.dp
+val teamModalSpacing = 8.dp
+val addPokemonSpacing = 16.dp
+val teamModalSearchResultsHeight = 200.dp
 
 // Pokemon Carousel
 val carouselSpaceBetween = 16.dp
@@ -28,3 +32,6 @@ val carouselSpaceBetween = 16.dp
 // Pokemon Screen
 val errorSpacing = 12.dp
 val sectionSpacing = 10.dp
+
+// Profile Screen
+val profileSpacerHeight = 16.dp

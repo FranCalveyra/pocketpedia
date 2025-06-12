@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
+import org.austral.pocketpedia.ui.theme.addPokemonSpacing
+import org.austral.pocketpedia.ui.theme.teamModalSearchResultsHeight
+import org.austral.pocketpedia.ui.theme.teamModalSpacing
 
 @Composable
 fun AddPokemonDialog(
@@ -53,14 +56,14 @@ fun AddPokemonDialog(
             Column {
                 // Always show team creation UI
                 Text(text = stringResource(R.string.create_new_team))
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(teamModalSpacing))
                 TextField(
                     value = newTeamName,
                     onValueChange = onNewTeamNameChange,
                     placeholder = { Text(text = stringResource(R.string.team_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(teamModalSpacing))
                 TextButton(
                     onClick = onCreateTeam,
                     enabled = newTeamName.isNotBlank()
@@ -70,7 +73,7 @@ fun AddPokemonDialog(
 
                 // If there are teams, show the add-Pokémon UI
                 if (teams.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(addPokemonSpacing))
                     // Search field
                     TextField(
                         value = query,
@@ -78,14 +81,14 @@ fun AddPokemonDialog(
                         placeholder = { Text(text = stringResource(R.string.search_pokemon)) },
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(teamModalSpacing))
                     // Team selector
                     var expanded by remember { mutableStateOf(false) }
                     Text(
                         text = "Team: $selectedTeam",
                         modifier = Modifier
                             .clickable { expanded = true }
-                            .padding(8.dp)
+                            .padding(teamModalSpacing)
                     )
                     DropdownMenu(
                         expanded = expanded,
@@ -100,11 +103,11 @@ fun AddPokemonDialog(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(teamModalSpacing))
                     // Search results
                     Column(
                         modifier = Modifier
-                            .height(200.dp)
+                            .height(teamModalSearchResultsHeight)
                             .verticalScroll(rememberScrollState())
                     ) {
                         searchResults.forEach { pokemon ->
@@ -113,7 +116,7 @@ fun AddPokemonDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable { onPokemonClick(pokemon) }
-                                    .padding(8.dp)
+                                    .padding(teamModalSpacing)
                             )
                         }
                     }
