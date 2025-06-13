@@ -51,7 +51,7 @@ jobs:
           tag: latest
 
       - name: Upload APK to release
-        uses: ncipollo/upload-release-action@v1
+        uses: ncipollo/upload-release-asset@v1
         with:
           tag: latest
           file: app/build/outputs/apk/release/app-release.apk
