@@ -1,5 +1,7 @@
 package org.austral.pocketpedia.ui.screens.team
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
@@ -25,8 +29,11 @@ import org.austral.pocketpedia.R
 import org.austral.pocketpedia.domain.models.pokemon.Pokemon
 import org.austral.pocketpedia.domain.models.team.PokemonTeam
 import org.austral.pocketpedia.ui.theme.addPokemonSpacing
+import org.austral.pocketpedia.ui.theme.currentTeamBorder
+import org.austral.pocketpedia.ui.theme.googleButtonBorderStroke
 import org.austral.pocketpedia.ui.theme.teamModalSearchResultsHeight
 import org.austral.pocketpedia.ui.theme.teamModalSpacing
+import org.austral.pocketpedia.ui.theme.transformToTitle
 
 @Composable
 fun AddPokemonDialog(
@@ -86,8 +93,17 @@ fun AddPokemonDialog(
                     Text(
                         text = "Team: $selectedTeam",
                         modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                BorderStroke(
+                                    googleButtonBorderStroke,
+                                    MaterialTheme.colors.primary
+                                ),
+                                shape = RoundedCornerShape(currentTeamBorder)
+                            )
                             .clickable { expanded = true }
-                            .padding(teamModalSpacing)
+                            .padding(teamModalSpacing),
+                        color = MaterialTheme.colors.onSurface
                     )
                     DropdownMenu(
                         expanded = expanded,
@@ -111,7 +127,7 @@ fun AddPokemonDialog(
                     ) {
                         searchResults.forEach { pokemon ->
                             Text(
-                                text = pokemon.name,
+                                text = transformToTitle(pokemon.name),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable { onPokemonClick(pokemon) }

@@ -38,3 +38,7 @@ val googleButtonSpacerWidth = 8.dp
 // - Gif Image
 val gifImageSize = 128.dp
 val gifImageSpacing = 16.dp
+
+// Pokemon Team Screen
+val currentTeamBorder = 4.dp
+// - AddPokemonDialog
