@@ -21,9 +21,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Create google-services.json
+      - name: Write google-services.json
         run: |
-          printf '%s' "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+          mkdir -p app
+          cat <<'EOF' > app/google-services.json
+          ${{ secrets.GOOGLE_SERVICES_JSON }}
+          EOF
 
       - name: Create tokens.xml
         run: |
