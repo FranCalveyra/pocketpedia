@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -104,7 +107,8 @@ fun ProfileScreen() {
                     IconButton(onClick = { showNotificationDialog = true }) {
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
-                            contentDescription = stringResource(R.string.schedule_notification)
+                            contentDescription = stringResource(R.string.schedule_notification),
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -115,6 +119,7 @@ fun ProfileScreen() {
                     textAlign = TextAlign.Center,
                     maxLines = 2
                 )
+                Spacer(modifier = Modifier.height(profileSpacerHeight))
                 ProfileBody(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     selectedTrainer = selectedTrainer,
@@ -257,28 +262,52 @@ fun ProfileBody(
         Spacer(modifier = Modifier.height(gifImageSpacing))
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+            onExpandedChange = { expanded = !expanded },
+            modifier = Modifier.background(color = MaterialTheme.colorScheme.onSecondary)
         ) {
             TextField(
                 readOnly = true,
                 value = selectedTrainer.name,
                 onValueChange = {},
-                label = { Text(stringResource(R.string.select_your_trainer_avatar)) },
+                label = {
+                    Text(
+                        stringResource(R.string.select_your_trainer_avatar),
+                        style = typography.bodyMedium,
+                    )
+                },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 },
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                textStyle = typography.bodySmall
             )
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                trainers.forEach { trainer ->
-                    DropdownMenuItem(onClick = {
-                        onTrainerSelected(trainer)
-                        expanded = false
-                    }) {
-                        Text(text = trainer.name)
+                Surface(
+                    color = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    shape = RoundedCornerShape(googleButtonCornerShape),
+                    border = BorderStroke(
+                        googleButtonBorderStroke,
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Column {
+                        trainers.forEach { trainer ->
+                            DropdownMenuItem(onClick = {
+                                onTrainerSelected(trainer)
+                                expanded = false
+                            }) {
+                                Text(
+                                    text = trainer.name,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
                     }
                 }
             }
