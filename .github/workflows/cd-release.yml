@@ -2,8 +2,7 @@ name: Build & Release APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -72,7 +71,7 @@ jobs:
           echo "apk_path=$APK" >> $GITHUB_OUTPUT
           echo "apk_name=$(basename "$APK")" >> $GITHUB_OUTPUT
 
-      - name: Upload APK to Release
+      - name: Upload APK to GitHub Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -81,3 +80,12 @@ jobs:
           asset_path: ${{ steps.find_apk.outputs.apk_path }}
           asset_name: ${{ steps.find_apk.outputs.apk_name }}
           asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload to Appetize.io
+        uses: appetizeio/github-action-appetize@v1.0.4
+        with:
+          apiToken: ${{ secrets.APPETIZE_API_TOKEN }}
+          publicKey: ${{ secrets.APPETIZE_PUBLIC_KEY }}
+          platform: android
+          appFile: ${{ steps.find_apk.outputs.apk_path }}
+          timeout: '300'
